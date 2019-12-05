@@ -60,41 +60,61 @@
                 </div>
             </div>
             <div class="col-md-8 about">
-                <h4 class="font-weight-bold">Sobre</h4>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo, sunt cumque suscipit obcaecati
-                    architecto quam officiis, nostrum necessitatibus fuga sit asperiores, a quae totam voluptates
-                    eligendi
-                    sed. Magni, odio esse?
-                </p>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil libero recusandae cum sapiente odit
-                    voluptates inventore perspiciatis, repudiandae unde eum laboriosam hic debitis fuga, nobis soluta
-                    alias
-                    culpa cumque quas.
-                </p>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores maxime reprehenderit rerum tempore
-                    quia culpa dolorum quisquam totam doloribus eius minus voluptatem enim atque ea hic, vero quam, illo
-                    sint!
-                </p>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit et animi officiis veniam autem ratione,
-                    obcaecati modi neque! Saepe soluta harum beatae ipsa ea necessitatibus totam neque possimus incidunt
-                    fugit?
-                </p>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title font-weight-bold">Sobre</h4>
+                        <p class="card-text">
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo, sunt cumque suscipit obcaecati
+                                architecto quam officiis, nostrum necessitatibus fuga sit asperiores, a quae totam voluptates
+                                eligendi
+                                sed. Magni, odio esse?
+                            </p>
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil libero recusandae cum sapiente odit
+                                voluptates inventore perspiciatis, repudiandae unde eum laboriosam hic debitis fuga, nobis soluta
+                                alias
+                                culpa cumque quas.
+                            </p>    
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Entrar em contato</h5>
+                        <p class="card-text">
+                        <div onsubmit="validate()" id="formulario">
+                            <div class="form-group">
+                                <label for="email">
+                                    <ion-icon name="mail"></ion-icon>Digite seu email
+                                </label>
+                                <input type="email" class="form-control" name="email" id="email"
+                                    aria-describedby="emailHelp" placeholder="">
+                                <p id="erroEmail"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="textarea">
+                                    <ion-icon name="document"></ion-icon> Deixe sua mensagem
+                                </label>
+                                <textarea class="form-control" id="textarea" rows="3"></textarea>
+                                <p id="erroMsg"></p>
+                            </div>
+                            <button onclick="validate()" class="btn btn-contato btn-block">Enviar</button>
+                        </form>
+                        </p>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
-
-    
 
     <footer class="page-footer font-small teal pt-4 mt-0">
         <div class="container-fluid text-center text-md-center">
             <div class="row">
                 <div class="col-md-6 mt-md-0 mt-3">
                     <p>Desenvolvido por Yure Matias</p>
-                </div>
+                </div>s
                 <hr class="clearfix w-100 d-md-none pb-3">
                 <div class="col-md-6 mb-md-0 mb-3">
                     <p>Universidade Federal do Rio Grande do Norte</p>
@@ -105,6 +125,16 @@
             <a href="http://github.com/yurematias"> Yure</a>
         </div>
     </footer>
+    <script>
+        function validate() {
+            console.log('aoisdfaosojfasjjoi');
+            
+            let elements = document.getElementsByClassName('form-control');
+            if (elements[0].innerHTML == '' || elements[1].innerHTML == '') {
+                alert('Preencha corretamente os campos')
+            } 
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
