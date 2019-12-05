@@ -110,7 +110,7 @@
     </div>
 
     <footer class="page-footer font-small teal pt-4 mt-0">
-        <div class="container-fluid text-center text-md-center">
+        <form class="container-fluid text-center text-md-center">
             <div class="row">
                 <div class="col-md-6 mt-md-0 mt-3">
                     <p>Escrito e desenvolvido por Yure Matias</p>
@@ -120,7 +120,7 @@
                     <p>Universidade Federal do Rio Grande do Norte</p>
                 </div>
             </div>
-        </div>
+        </form>
         <div class="footer-copyright text-center py-3">© 2019 Copyright:
             <a href="http://github.com/yurematias"> Yure</a>
         </div>
@@ -130,9 +130,11 @@
             console.log('aoisdfaosojfasjjoi');
             
             let elements = document.getElementsByClassName('form-control');
-            if (elements[0].innerHTML == '' || elements[1].innerHTML == '') {
+            if (elements[0].value == '' || elements[1].value == '') {
                 alert('Preencha corretamente os campos')
-            } 
+            } else {
+                alert('Enviado');
+            }
         }
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
