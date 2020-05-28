@@ -9,7 +9,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="./css/custom.css">
+    <link rel="stylesheet" href="./css/flex.css">
 </head>
 
 <body>
@@ -24,55 +25,133 @@
         <div id="my-nav" class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="./index.html">Sobre<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="./index.html">
+                        Sobre
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./html/autor.html" tabindex="-1" aria-disabled="true">Sobre o autor</a>
+                    <a class="nav-link" href="./html/autor.html" tabindex="-1" aria-disabled="true">
+                        Sobre o autor
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">
+                        Metodologia
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./html/tutoriais.html" tabindex="-1" aria-disabled="true">
-                        Tutoriais
+                        Tutoriais relacionados
                     </a>
                 </li>
             </ul>
         </div>
     </nav>
     <div class="apresentation d-none d-lg-block">
-
+        <div id="text" class="flex vertical">
+            <div class="info">
+                <h1 class="">
+                    SMARTSILO PROJECT
+                </h1>
+                <p>
+                    instrumentação e controle inteligente de <br>
+                    aeração/secagem em silos de armazenagem de grãos no <br>
+                    contexto de Internet das Coisas
+                </p>
+            </div>
+        </div>
     </div>
     <div class="container-fluid main mt-0 mb-0 padding">
         <header class="row" id="header">
             <div class="col-md-8">
                 <h4 class="font-weight-bold">Sobre</h4>
-                <hr>
                 <p class="justify-text">
                     &nbsp; &nbsp; &nbsp; &nbsp;
                     O SmartSilo é um projeto de pesquisa universitário da Universidade Federal
                     do Rio Grande do Norte.
                     Consiste em um aplicativo baseado em hardware para instrumentação e controle inteligente de aeração
-                    / secagem em silos de armazenamento de grãos em um contexto de IoT. Lorem ipsum dolor sit amet
-                    consectetur adipisicing elit. Iste nam nisi laborum, debitis provident exercitationem. Hic, quod
-                    tempore quam incidunt illo ipsum aliquam. Assumenda iusto asperiores delectus, architecto commodi
-                    debitis?
+                    / secagem em silos de armazenamento de grãos em um contexto de IoT. 
                 </p>
                 <h4 class="font-weight-bold">Justificativa</h4>
-                <hr>
                 <p class="justify-text">
                     &nbsp; &nbsp; &nbsp; &nbsp;
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas reprehenderit quae laborum odio?
-                    Eligendi laborum ex ut modi quidem iure perferendis quae amet ratione, atque ipsa animi molestiae.
-                    Veniam, voluptatem. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem qui ea,
-                    recusandae nisi non blanditiis magni. Corporis, ratione? Reprehenderit quasi voluptates dolor,
-                    labore cumque quisquam tempore odio rerum at magni. Lorem, ipsum dolor sit amet consectetur
-                    adipisicing elit. Modi inventore impedit vitae architecto voluptatum! Obcaecati et adipisci dolorem
-                    similique, accusantium consectetur asperiores itaque iusto rerum, a, eos maxime quia dolores.
+                    O kit didático de secagem de grãos repousa sobre células de carga, 
+                    as quais podem fornecer o peso da massa depositada, 
+                    sendo parâmetro importante para inferir perdas de água e consequente umidade do produto no silo. 
+                    Estes dados necessitam ser adquiridos adequadamente para interface com sistema de monitoramento e 
+                    controle de umidade, o qual será embarcado na plataforma ESP32, que possui as interfaces necessárias.
                 </p>
             </div>
             <div class="col-md-4">
-                <figure><img src="./img/grain-dryer.png" class="img-responsive h-photo" alt=""></figure>
+                <img src="./img//demonstration.png" class="img-responsive h-photo" id="demo">
             </div>
         </header>
-
+        <div class="row mt-3">
+            <h4 class="col font-weight-bold">
+                Plano de trabalho
+            </h4>
+        </div>
+        <hr>
+        <div class="row mt-3">
+            <h5 class="col-3">
+                Projeto de pesquisa:
+            </h5>
+            <p class="col-9">
+                PVI15228-2018 - SmartSilo: instrumentação e controle inteligente de aeração/secagem em 
+                silos de armazenagem de grãos no contexto de IoT 
+            </p>            
+        </div>
+        <div class="row">
+            <h5 class=" col-3">
+                Orientador:
+            </h5>
+            <p class="col-9">
+                Josenalde Barbosa de Oliveira
+            </p>            
+        </div>
+        <div class="row">
+            <h5 class=" col-3">
+                Centro: 
+            </h5>
+            <p class="col-9">
+                Escola Agrícola de Jundiaí
+            </p>            
+        </div>
+        <div class="row">
+            <h5 class="col-3">
+                Discente
+            </h5>
+            <p class="col-9">
+                Yure Matias de Oliveira
+            </p>            
+        </div>
+        <div class="row mt-3">
+            <h4 class="col font-weight-bold">
+                Área de conhecimento
+            </h4>
+        </div>
+        <hr>
+        <div class="row">
+            <h5 class="col-3">Grande área: </h5>
+            <p class="col-9">Engenharias </p>
+        </div>
+        <div class="row">
+            <h5 class="col-3">Área: </h5>
+            <p class="col-9">Engenharia Elétrica</p>
+        </div>
+        <div class="row">
+            <h5 class="col-3">Subárea: </h5>
+            <p class="col-9">
+                Eletrônica Industrial, 
+                Sistemas e Controles Eletrônicos 
+            </p>
+        </div>
+        <div class="row">
+            <h5 class="col-3">Subárea: </h5>
+            <p class="col-9">
+                Controle de Processos Eletrônicos, Retroalimentação
+            </p>
+        </div>
     </div>
     <footer class="page-footer font-small teal pt-4 mt-0">
         <div class="container-fluid text-center text-md-center">
@@ -86,7 +165,7 @@
                 </div>
             </div>
         </div>
-        <div class="footer-copyright text-center py-3">© 2019 Copyright:
+        <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://github.com/yurematias"> Yure</a>
         </div>
     </footer>

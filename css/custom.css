@@ -10,11 +10,35 @@
     margin-top: 36px;
 }
 
+#demo {
+    width: 330px;
+}
+
 .apresentation{
     width: 100%;
     height: 375px;
     background-size: cover;
-    background-image: url("../img/dryer.jpg");
+    background-image: url("../img/cover.jpg");
+}
+
+.apresentation > #text {
+    width: 400px;
+    height: 360px;
+    padding: 20px;
+}
+
+.apresentation > #text .info {
+    margin-top: 15px;
+}
+
+.apresentation > #text h1 {
+    font-size: 2.1rem;
+    font-weight: 600;
+}
+
+.apresentation > #text p {
+    font-size: 1.15rem;
+    font-weight: 600;
 }
 
 ul li a{
