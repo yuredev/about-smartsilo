@@ -16,10 +16,17 @@
 }
 
 .apresentation{
+  padding: 28px 120px;
+  user-select: none;
   width: 100%;
-  height: 375px;
+  height: 330px;
   background-size: cover;
   background-image: url("../img/cover.jpg");
+}
+
+.apresentation > h1 {
+  font-size: 40px;
+  color: rgba(0, 0, 0, 0.507);
 }
 
 ul li a{
