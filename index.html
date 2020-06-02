@@ -29,26 +29,26 @@
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" href="./index.html">
-                {{conteudos.sobre}}
+                {{conteudos.sobre || null}}
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="./html/autor.html" tabindex="-1" aria-disabled="true">
-                {{conteudos.autor}}
+                {{conteudos.autor || null}}
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="./html/metodologia.html" tabindex="-1" aria-disabled="true">
-                {{conteudos.metodologia}}
+                {{conteudos.metodologia || null}}
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="./html/tutoriais.html" tabindex="-1" aria-disabled="true">
-                {{conteudos.tutoriais}}
+                {{conteudos.tutoriais || null}}
               </a>
             </li>
             <li class="nav-item" id="selecao-idioma">
-              <small class="smallname" for="idioma">{{conteudos.idioma}}</small>
+              <small class="smallname" for="idioma">{{conteudos.idioma || null}}</small>
               <select id="idioma" class="form-control">
                 <option @click="setIdioma('portugues')">Português brasileiro</option>
                 <option @click="setIdioma('english')">English</option>
@@ -58,22 +58,22 @@
         </div>
       </nav>
       <div class="apresentation d-none d-lg-block">
-        <h1 class="font-weight-bold">{{conteudos.nomeProjeto}}</h1>
+        <h1 class="font-weight-bold">{{conteudos.nomeProjeto || null}}</h1>
         <p v-html="conteudos.subtitulo"></p>
       </div>
     </div>
     <div class="container-fluid main mt-0 mb-0 padding">
       <header class="row" id="header">
         <div class="col-md-8">
-          <h4 class="font-weight-bold">{{conteudos.sobre}}</h4>
+          <h4 class="font-weight-bold">{{conteudos.sobre || null}}</h4>
           <p class="justify-text">
             &nbsp; &nbsp; &nbsp; &nbsp;
-            {{conteudos.textoSobre}}
+            {{conteudos.textoSobre || null}}
           </p>
-          <h4 class="font-weight-bold">{{conteudos.justificativa}}</h4>
+          <h4 class="font-weight-bold">{{conteudos.justificativa || null}}</h4>
           <p class="justify-text">
             &nbsp; &nbsp; &nbsp; &nbsp;
-            {{conteudos.textoJustificativa}}
+            {{conteudos.textoJustificativa || null}}
           </p>
         </div>
         <div class="col-md-4">
@@ -82,13 +82,13 @@
       </header>
       <div class="row mt-3">
         <h4 class="col font-weight-bold">
-          {{conteudos.plano}}
+          {{conteudos.plano || null}}
         </h4>
       </div>
       <hr>
       <div class="row mt-3">
         <h5 class="col-3" v-html="">
-          {{conteudos.projetoDePesquisa}}
+          {{conteudos.projetoDePesquisa || null}}
         </h5>
         <p class="col-9">
           SmartSilo: <span v-html="conteudos.subtitulo"></span>
@@ -96,23 +96,23 @@
       </div>
       <div class="row">
         <h5 class=" col-3">
-          {{conteudos.centro}}
+          {{conteudos.centro || null}}
         </h5>
         <p class="col-9">
-          {{conteudos.nomeCentro}}
+          {{conteudos.nomeCentro || null}}
         </p>
       </div>
       <div class="row">
         <h5 class=" col-3">
-          {{conteudos.orientador}}
+          {{conteudos.orientador || null}}
         </h5>
         <p class="col-9">
-          {{conteudos.nomeOrientador}}
+          {{conteudos.nomeOrientador || null}}
         </p>
       </div>
       <div class="row">
         <h5 class="col-3">
-          {{conteudos.discente}}
+          {{conteudos.discente || null}}
         </h5>
         <p class="col-9">
           Yure Matias de Oliveira
@@ -120,28 +120,28 @@
       </div>
       <div class="row mt-3">
         <h4 class="col font-weight-bold">
-          {{conteudos.areaDeConhecimento}}
+          {{conteudos.areaDeConhecimento || null}}
         </h4>
       </div>
       <hr>
       <div class="row">
-        <h5 class="col-3">{{conteudos.grandeArea}}</h5>
-        <p class="col-9">{{conteudos.engenharias}} </p>
+        <h5 class="col-3">{{conteudos.grandeArea || null}}</h5>
+        <p class="col-9">{{conteudos.engenharias || null}} </p>
       </div>
       <div class="row">
-        <h5 class="col-3">{{conteudos.area}}</h5>
-        <p class="col-9">{{conteudos.engenhariaEletrica}}</p>
+        <h5 class="col-3">{{conteudos.area || null}}</h5>
+        <p class="col-9">{{conteudos.engenhariaEletrica || null}}</p>
       </div>
       <div class="row">
-        <h5 class="col-3">{{conteudos.subarea}}: </h5>
+        <h5 class="col-3">{{conteudos.subarea || null}}: </h5>
         <p class="col-9">
-          {{conteudos.textoSubarea1}}
+          {{conteudos.textoSubarea1 || null}}
         </p>
       </div>
       <div class="row">
-        <h5 class="col-3">{{conteudos.subarea}}: </h5>
+        <h5 class="col-3">{{conteudos.subarea || null}}: </h5>
         <p class="col-9">
-          {{conteudos.textoSubarea2}}
+          {{conteudos.textoSubarea2 || null}}
         </p>
       </div>
     </div>
@@ -149,11 +149,11 @@
       <div class="container-fluid text-center text-md-center">
         <div class="row">
           <div class="col-md-6 mt-md-0 mt-3">
-            <p>{{conteudos.desenvolvidoPor}} Yure Matias</p>
+            <p>{{conteudos.desenvolvidoPor || null}} Yure Matias</p>
           </div>
           <hr class="clearfix w-100 d-md-none pb-3">
           <div class="col-md-6 mb-md-0 mb-3">
-            <p>{{conteudos.universidade}}</p>
+            <p>{{conteudos.universidade || null}}</p>
           </div>
         </div>
       </div>
