@@ -1,11 +1,9 @@
 import instanciaVue from './instanciaVue.js';
 import ptbr from './ptbr.js';
 
-const vueApp = instanciaVue;
+setTimeout(() => carregarConteudo(instanciaVue), 100);;
 
-setTimeout(() => setConteudo(vueApp), 100);;
-
-function setConteudo(vueApp) {
+function carregarConteudo(vueApp) {
   Object.keys(ptbr).forEach(chave => {
     vueApp.setConteudo(chave);
   });
