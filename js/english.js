@@ -1,7 +1,7 @@
 export default {
   sobre: 'About',
   autor: 'About the author',
-  metodologia: 'Metodology',
+  metodologia: 'Methodology',
   tutoriais: 'Related tutorials',
   idioma: 'Language',
   nomeProjeto: 'SMARTSILO PROJECT',
@@ -12,30 +12,30 @@ export default {
   University of Rio Grande do Norte.
   Consists in a hardware based application for aeration / drying of grains in storage silos in a IoT context.`,
   justificativa: 'Justificativa',
-  textoJustificativa: `Com o aumento de produtividade apresentado pelo setor de grãos no país, a necessidade por não apenas locais de
-  estocagem dos produtos, mas que estes sejam otimizados para prover uma durabilidade maior destes produtos, é
-  de interesse nacional e estratégico para a cadeia da economia primária. Este projeto permitirá o
-  desenvolvimento de sistema de controle de aeração/secagem em silos de armazenamento de grãos, com o uso de
-  instrumentação no contexto de Internet das Coisas (IoT), com possibilidade não apenas de monitoramento mas de
-  controle de variáveis remotamente, para manutenção de níveis de umidade/temperatura adequados a cada tipo de
-  grão e condições de microclima internas e externas ao local de instalação do silo...`,
+  textoJustificativa: `With the increase in productivity presented by the grain sector in the country, the need for not only
+  storage of products, but that they are optimized to provide greater durability of these products, it is
+  of national and strategic interest for the primary economy chain. This project will allow the
+  development of an aeration / drying control system in grain storage silos, using
+  instrumentation in the context of Internet of Things (IoT), with the possibility not only of monitoring but of
+  control variables remotely, to maintain humidity / temperature levels suitable for each type of
+  grain and microclimate conditions inside and outside the silo installation site...`,
   plano: 'Plano de trabalho',
   projetoDePesquisa: 'Research project:',
-  orientador: 'Orientador: ',
+  orientador: 'Advisor: ',
   nomeOrientador: 'Josenalde Barbosa de Oliveira',
   centro: 'Center: ',
   nomeCentro: 'Agricultural School of Jundiaí',
   discente: 'Discente: ',
   areaDeConhecimento: 'Área de conhecimento',
-  grandeArea: 'Grande área: ',
-  engenharias: 'Engenharias',
+  grandeArea: 'Great area: ',
+  engenharias: 'Engineering',
   area: 'Área: ',
-  engenhariaEletrica: 'Engenharia Elétrica',
-  subarea: 'Subárea',
-  textoSubarea1: `Eletrônica Industrial,
-  Sistemas e Controles Eletrônicos`,
-  textoSubarea2: `Controle de Processos Eletrônicos, 
-  Retroalimentação`,
+  engenhariaEletrica: 'Electrical Engineering',
+  subarea: 'Subarea',
+  textoSubarea1: `Industrial Electronics,
+  Electronic Systems and Controls`,
+  textoSubarea2: `Eletrônics Proccess Control, 
+  Feedback`,
   desenvolvidoPor: 'Developed by: ',
   universidade: 'Federal University of Rio Grande do Norte'
 }
