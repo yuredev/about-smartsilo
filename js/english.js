@@ -9,7 +9,7 @@ export default {
   textoSobre: `
   SmartSilo is a research project of the 
   Agricultural School of Jundiaí in Federal 
-  University of Rio Grande do Norte.
+  University of Rio Grande do Norte, Brazil.
   Consists in a hardware based application for aeration / drying of grains in storage silos in a IoT context.`,
   justificativa: 'Justificativa',
   textoJustificativa: `With the increase in productivity presented by the grain sector in the country, the need for not only
