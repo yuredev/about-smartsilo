@@ -11,160 +11,170 @@
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="./css/custom.css">
   <link rel="stylesheet" href="./css/flex.css">
+  <link type="text/javascript" href="./js/ptbr.js">
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-sm navbar-dark dark text-light">
-    <a class="navbar-brand">
-      <img src="./img/smart.png" class="logo" href="/">
-    </a>
-    <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div id="my-nav" class="collapse navbar-collapse">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="./index.html">
-            Sobre
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./html/autor.html" tabindex="-1" aria-disabled="true">
-            Sobre o autor
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./html/metodologia.html" tabindex="-1" aria-disabled="true">
-            Metodologia
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./html/tutoriais.html" tabindex="-1" aria-disabled="true">
-            Tutoriais relacionados
-          </a>
-        </li>
-      </ul>
+  <div id="app">
+    <nav class="navbar navbar-expand-sm navbar-dark dark text-light">
+      <a class="navbar-brand">
+        <img src="./img/smart.png" class="logo" href="/">
+      </a>
+      <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="my-nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="./index.html">
+              {{conteudos.sobre}}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./html/autor.html" tabindex="-1" aria-disabled="true">
+              {{conteudos.autor}}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./html/metodologia.html" tabindex="-1" aria-disabled="true">
+              {{conteudos.metodologia}}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./html/tutoriais.html" tabindex="-1" aria-disabled="true">
+              {{conteudos.tutoriais}}
+            </a>
+          </li>
+          <li class="nav-item" id="selecao-idioma">
+            <small class="smallname">idioma</small>
+            <select id="idioma" class="form-control">
+              <option>Português brasileiro</option>
+              <option>Inglês</option>
+            </select>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="apresentation d-none d-lg-block">
+      <h1 class="font-weight-bold">PROJETO SMARTSILO</h1>
+      <p>
+        instrumentação e controle inteligente aeração / secagem <br />
+        em silos de armazenamento de grãos
+      </p>
     </div>
-  </nav>
-  <div class="apresentation d-none d-lg-block">
-    <h1 class="font-weight-bold">PROJETO SMARTSILO</h1>
-    <p>
-      instrumentação e controle inteligente aeração / secagem <br />
-      em silos de armazenamento de grãos
-    </p>
-  </div>
-  </div>
-  <div class="container-fluid main mt-0 mb-0 padding">
-    <header class="row" id="header">
-      <div class="col-md-8">
-        <h4 class="font-weight-bold">Sobre</h4>
-        <p class="justify-text">
-          &nbsp; &nbsp; &nbsp; &nbsp;
-          O SmartSilo é um projeto de pesquisa universitário da Universidade Federal
-          do Rio Grande do Norte.
-          Consiste em um aplicativo baseado em hardware para instrumentação e controle inteligente de aeração
-          / secagem em silos de armazenamento de grãos em um contexto de IoT.
-        </p>
-        <h4 class="font-weight-bold">Justificativa</h4>
-        <p class="justify-text">
-          &nbsp; &nbsp; &nbsp; &nbsp;
-          Com o aumento de produtividade apresentado pelo setor de grãos no país, a necessidade por não apenas locais de
-          estocagem dos produtos, mas que estes sejam otimizados para prover uma durabilidade maior destes produtos, é
-          de interesse nacional e estratégico para a cadeia da economia primária. Este projeto permitirá o
-          desenvolvimento de sistema de controle de aeração/secagem em silos de armazenamento de grãos, com o uso de
-          instrumentação no contexto de Internet das Coisas (IoT), com possibilidade não apenas de monitoramento mas de
-          controle de variáveis remotamente, para manutenção de níveis de umidade/temperatura adequados a cada tipo de
-          grão e condições de microclima internas e externas ao local de instalação do silo...
+    </div>
+    <div class="container-fluid main mt-0 mb-0 padding">
+      <header class="row" id="header">
+        <div class="col-md-8">
+          <h4 class="font-weight-bold">Sobre</h4>
+          <p class="justify-text">
+            &nbsp; &nbsp; &nbsp; &nbsp;
+            O SmartSilo é um projeto de pesquisa universitário da Universidade Federal
+            do Rio Grande do Norte.
+            Consiste em um aplicativo baseado em hardware para instrumentação e controle inteligente de aeração
+            / secagem em silos de armazenamento de grãos em um contexto de IoT.
+          </p>
+          <h4 class="font-weight-bold">Justificativa</h4>
+          <p class="justify-text">
+            &nbsp; &nbsp; &nbsp; &nbsp;
+            Com o aumento de produtividade apresentado pelo setor de grãos no país, a necessidade por não apenas locais de
+            estocagem dos produtos, mas que estes sejam otimizados para prover uma durabilidade maior destes produtos, é
+            de interesse nacional e estratégico para a cadeia da economia primária. Este projeto permitirá o
+            desenvolvimento de sistema de controle de aeração/secagem em silos de armazenamento de grãos, com o uso de
+            instrumentação no contexto de Internet das Coisas (IoT), com possibilidade não apenas de monitoramento mas de
+            controle de variáveis remotamente, para manutenção de níveis de umidade/temperatura adequados a cada tipo de
+            grão e condições de microclima internas e externas ao local de instalação do silo...
+          </p>
+        </div>
+        <div class="col-md-4">
+          <img src="./img/demonstration.png" class="img-responsive h-photo" id="demo">
+        </div>
+      </header>
+      <div class="row mt-3">
+        <h4 class="col font-weight-bold">
+          Plano de trabalho
+        </h4>
+      </div>
+      <hr>
+      <div class="row mt-3">
+        <h5 class="col-3">
+          Projeto de pesquisa:
+        </h5>
+        <p class="col-9">
+          SmartSilo: instrumentação e controle inteligente de aeração/secagem em <br />
+          silos de armazenagem de grãos no contexto de IoT
         </p>
       </div>
-      <div class="col-md-4">
-        <img src="./img/demonstration.png" class="img-responsive h-photo" id="demo">
-      </div>
-    </header>
-    <div class="row mt-3">
-      <h4 class="col font-weight-bold">
-        Plano de trabalho
-      </h4>
-    </div>
-    <hr>
-    <div class="row mt-3">
-      <h5 class="col-3">
-        Projeto de pesquisa:
-      </h5>
-      <p class="col-9">
-        SmartSilo: instrumentação e controle inteligente de aeração/secagem em <br />
-        silos de armazenagem de grãos no contexto de IoT
-      </p>
-    </div>
-    <div class="row">
-      <h5 class=" col-3">
-        Orientador:
-      </h5>
-      <p class="col-9">
-        Josenalde Barbosa de Oliveira
-      </p>
-    </div>
-    <div class="row">
-      <h5 class=" col-3">
-        Centro:
-      </h5>
-      <p class="col-9">
-        Escola Agrícola de Jundiaí
-      </p>
-    </div>
-    <div class="row">
-      <h5 class="col-3">
-        Discente
-      </h5>
-      <p class="col-9">
-        Yure Matias de Oliveira
-      </p>
-    </div>
-    <div class="row mt-3">
-      <h4 class="col font-weight-bold">
-        Área de conhecimento
-      </h4>
-    </div>
-    <hr>
-    <div class="row">
-      <h5 class="col-3">Grande área: </h5>
-      <p class="col-9">Engenharias </p>
-    </div>
-    <div class="row">
-      <h5 class="col-3">Área: </h5>
-      <p class="col-9">Engenharia Elétrica</p>
-    </div>
-    <div class="row">
-      <h5 class="col-3">Subárea: </h5>
-      <p class="col-9">
-        Eletrônica Industrial,
-        Sistemas e Controles Eletrônicos
-      </p>
-    </div>
-    <div class="row">
-      <h5 class="col-3">Subárea: </h5>
-      <p class="col-9">
-        Controle de Processos Eletrônicos, Retroalimentação
-      </p>
-    </div>
-  </div>
-  <footer class="page-footer font-small teal pt-4 mt-0">
-    <div class="container-fluid text-center text-md-center">
       <div class="row">
-        <div class="col-md-6 mt-md-0 mt-3">
-          <p>Desenvolvido por Yure Matias</p>
-        </div>
-        <hr class="clearfix w-100 d-md-none pb-3">
-        <div class="col-md-6 mb-md-0 mb-3">
-          <p>Universidade Federal do Rio Grande do Norte</p>
-        </div>
+        <h5 class=" col-3">
+          Orientador:
+        </h5>
+        <p class="col-9">
+          Josenalde Barbosa de Oliveira
+        </p>
+      </div>
+      <div class="row">
+        <h5 class=" col-3">
+          Centro:
+        </h5>
+        <p class="col-9">
+          Escola Agrícola de Jundiaí
+        </p>
+      </div>
+      <div class="row">
+        <h5 class="col-3">
+          Discente
+        </h5>
+        <p class="col-9">
+          Yure Matias de Oliveira
+        </p>
+      </div>
+      <div class="row mt-3">
+        <h4 class="col font-weight-bold">
+          Área de conhecimento
+        </h4>
+      </div>
+      <hr>
+      <div class="row">
+        <h5 class="col-3">Grande área: </h5>
+        <p class="col-9">Engenharias </p>
+      </div>
+      <div class="row">
+        <h5 class="col-3">Área: </h5>
+        <p class="col-9">Engenharia Elétrica</p>
+      </div>
+      <div class="row">
+        <h5 class="col-3">Subárea: </h5>
+        <p class="col-9">
+          Eletrônica Industrial,
+          Sistemas e Controles Eletrônicos
+        </p>
+      </div>
+      <div class="row">
+        <h5 class="col-3">Subárea: </h5>
+        <p class="col-9">
+          Controle de Processos Eletrônicos, Retroalimentação
+        </p>
       </div>
     </div>
-    <div class="footer-copyright text-center py-3">© 2020 Copyright:
-      <a href="http://github.com/yurematias"> Yure</a>
-    </div>
-  </footer>
+    <footer class="page-footer font-small teal pt-4 mt-0">
+      <div class="container-fluid text-center text-md-center">
+        <div class="row">
+          <div class="col-md-6 mt-md-0 mt-3">
+            <p>Desenvolvido por Yure Matias</p>
+          </div>
+          <hr class="clearfix w-100 d-md-none pb-3">
+          <div class="col-md-6 mb-md-0 mb-3">
+            <p>Universidade Federal do Rio Grande do Norte</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <a href="http://github.com/yurematias"> Yure</a>
+      </div>
+    </footer>
+  </div>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
@@ -174,6 +184,8 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script type="module" src="./js/main.js"></script>
 </body>
 
 </html>
