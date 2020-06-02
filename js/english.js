@@ -25,7 +25,7 @@ export default {
   nomeOrientador: 'Josenalde Barbosa de Oliveira',
   centro: 'Center: ',
   nomeCentro: 'Agricultural School of Jundiaí',
-  discente: 'Discente: ',
+  discente: 'Student: ',
   areaDeConhecimento: 'Área de conhecimento',
   grandeArea: 'Great area: ',
   engenharias: 'Engineering',
