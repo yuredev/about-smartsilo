@@ -26,8 +26,10 @@ small.smallname {
 }
 
 select#idioma {
+  user-select: none;
+  cursor: pointer;
   border-radius: 3px;
-  background-image: url('../img/brazil-flag.svg');
+  background-image: url('../img/uk-flag.jpg');
   background-size: contain;
   border-width: 0px;
   width: 40px !important;
