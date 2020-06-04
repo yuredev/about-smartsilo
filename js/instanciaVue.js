@@ -12,6 +12,9 @@ const vueApp = new Vue({
   methods: {
     setConteudo(conteudo, idioma) {
       this.conteudos[conteudo] = getConteudo(conteudo, idioma ? idioma : this.idioma);
+      if (idioma) {
+        this.idioma = idioma;
+      }
     },
     setIdioma(idioma) {
       this.idioma = idioma;
