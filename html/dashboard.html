@@ -13,484 +13,491 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-sm navbar-dark dark text-light">
-    <a class="navbar-brand" href="/">
-      <img src="../img/smart.png" class="logo">
-    </a>
-    <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div id="my-nav" class="collapse navbar-collapse">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="../index.html">
-            Sobre
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./autor.html" tabindex="-1" aria-disabled="true">
-            Sobre o autor
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./metodologia.html" tabindex="-1" aria-disabled="true">
-            Metodologia
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./tutoriais.html" tabindex="-1" aria-disabled="true">
-            Tutoriais relacionados
-          </a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-  <div class="container-fluid mt-20">
-    <div class="row">
-      <div class="col-md-10 col-12 main">
-        <div class="container-fluid padding-dash">
-          <section id="introdução">
-            <h3 class="font-weight-bold">Monitoramento de sinais com JavaScript e Arduino</h3>
-              <hr>
-              <div class="row">
-                <div class="col-md-5 text-justify">
-                  <p>
-                    Neste tutorial, você verá como construir uma página web para monitoramento
-                    de sinais de potenciômetros ligados ao Arduino,
-                    usando apenas o JavaScript como liguagem de programação no cliente, servidor e
-                    no
-                    hardware.
-                  </p>
-                  <p>
-                    Para isso será utilizado o NodeJS para execução do JavaScript fora
-                    do navegador, o framework Johnny-five que possibilita fazer a comunicação serial
-                    entre o Node e a placa Arduino, e o Socket.io, biblioteca que será usada para
-                    enviar em tempo real os dados do Arduino para o gráfico no dashboard.
-                  </p>
-                </div>
-                <figure class="col-md-6 offset-md-1">
-                  <img src="../img/diagram.png" class="img-responsive photo">
-                </figure>
-              </div>
-          </section>
-          <section id="Tecnologias">
-            <h4 class="font-weight-bold">Tecnologias utilizadas</h4>
-            <hr>
-            <h4>NodeJS</h4>
-            <article class="row">
-              <p class="col-md-5 text-justify">
-                O NodeJS é basicamente um ambiente de execução
-                JavaScript do lado servidor, permitindo a
-                interpretação da linguagem fora do ambiente dos
-                browsers. Sua criação abriu a possibilidade
-                para desenvolver vários sistemas diferentes em
-                JavaScript que vão desde programas desktop, servidores
-                web complexos, até sistemas baseados em hardware como é o
-                caso da aplicação a ser desenvolvida neste tutorial.
-                <a href="https://nodejs.org/en/">NodeJS site oficial</a>
-              </p>
-              <figure class="col-md-6 offset-md-1">
-                <img src="../img/nodejs.jpg" class="small-photo img-responsive">
-              </figure>
-            </article>
-            <h4>Johnny-Five</h4>
-            <article class="row">
-              <p class="col-md-5 text-justify">
-                Johnny-five é um framework que possibilita interagir e controlar
-                hardware utilizando a linguagem JavaScript no NodeJS.
-                Tendo seu lançamento em 2012 a biblioteca e a coleção de recursos
-                são mantidas até hoje por uma comunidade ampla de desenvolvedores
-                aficionados em robótica, hardware e software.
-                <a href="http://johnny-five.io/">Johnny-Five site oficial</a>
-              </p>
-              <figure class="col-md-6 offset-md-1">
-                <img src="../img/johnny-five.png" class="small-photo img-responsive">
-              </figure>
-            </article>
-            <h4>Socket.io</h4>
-            <article class="row">
-              <p class="col-md-5 text-justify">
-                O Socket.io é uma biblioteca JavaScript para aplicações web realizarem
-                comunicação bidirecional, em tempo real e baseada em eventos
-                entre clientes e servidores da web.
-                Ele é constituído de duas partes, uma biblioteca do lado do front-end, a que é
-                executada
-                nos navegadores, e a do lado back-end que é executada no lado do servidor no
-                NodeJS. A biblioteca dispõe de várias funcionalidades como detecção de desconexão e
-                suporte à reconexão automática.
-                <a href="https://socket.io/">Socket.io site oficial</a>
-              </p>
-              <figure class="col-md-6 offset-md-1">
-                <img src="../img/socket.png" class="small-photo img-responsive">
-              </figure>
-            </article>
-          </section>
-          <section id="Material">
-            <h4 class="font-weight-bold">Material necessário: </h4>
-            <hr>
-            <p>Para seguir com este tutorial, você irá precisar dos seguintes componentes: </p>
-            <ul class="">
-              <li>
-                <a
-                  href="https://www.buscape.com.br/informatica/suprimentos/suprimentos-para-informatica/arduino-uno-b.html">
-                  Arduino
-                </a>
-              </li>
-              <li>
-                <a href="https://www.buscape.com.br/search/potenciometro?fromSearchBox=true&produto=potenciometro">
-                  Potenciômetro
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  Jumpers
-                </a>
-              </li>
-              <li class="">
-                <a href="">Protoboard</a>
-              </li>
-            </ul>
-          </section>
-          <section id="Ambiente">
-            <h4 class="font-weight-bold">Preparando o ambiente:</h4>
-            <hr>
-            <ul class="">
-              <li>
-                Instale a IDE do Arduino
-              </li>
-              <li>
-                Instale o Node.js
-              </li>
-              <li class="text-justify">
-                Instale o Visual Studio Express 2010 32 bit <br />
-                (certifique-se de que você tem todas as dependencias
-                do C++ selecionadas)
-              </li>
-              <li>Instale o Python 2.7.3</li>
-              <li>Abra o cmd e digite
-                <div class="command">
-                  set PATH=%PATH%;C:\Python27
-                </div>
-              </li>
-              <li>Instale o node-gyp
-                <div class="command">
-                  npm install -g node-gyp
-                </div>
-              </li>
-            </ul>
-          </section>
-          <section class="" id="NodeJS">
-            <h4 class="font-weight-bold">Instalando pacotes no NodeJS</h4>
-            <hr>
-            <ul>
-              <li class="text-justify">
-                Após a devida instalação do Johnny-five devemos
-                na pasta do projeto, assim digite no terminal:
-                <div class="command"> npm install --save johnny-five</div>
-              </li>
-              <li class="text-justify">
-                Também será necessário instalar o Express para criar nosso servidor web para isso digite
-                no
-                terminal:
-                <div class="command">npm install --save express</div>
-              </li>
-              <li>
-                Para instalação do Socket.io no NodeJS insira o comando:
-                <div class="command">npm install --save socket.io</div>
-              </li>
-            </ul>
-          </section>
-          <section id="Arduino">
-            <h4 class="font-weight-bold">Preparando o Arduino</h4>
-            <hr>
-            <p class="text-justify">
-              Antes de começarmos a codificar precisamos
-              deixar o arduino no ponto para receber os sinais
-              de voltagem dos potenciômetros, para isso siga o esquema a
-              seguir colocando a saída dos potenciômetros
-              nas entradas analógicas A0 e A1 do Arduino
-            </p>
-            <figure class="">
-              <img src="../img/fritzing.JPG" class="large-photo img-responsive">
-            </figure>
-          </section>
-          <section class="text-justify" id="Servidor">
-            <h4 class="font-weight-bold">Criando o servidor da aplicação</h4>
-            <hr>
-            <h4>Criando JavaScript do back-end</h4>
-            <p class="text-justify">Após toda essa configuração, finalmente
-              podemos criar o primeiro arquivo, que será o back-end da
-              aplicação. assim crie o arquivo server.js e importe as devidas
-              bibliotecas e frameworks anteriormente instaladas na pasta do NodeJS
-            </p>
-            <figure>
-              <img src="../img/code/requires.PNG" class="code img-responsive">
-            </figure>
-            <p class="text-justify">
-              Logo após isso definimos uma constante referente a porta que o servidor será
-              vinculado e definimos a pasta que será enviada nas requisições para o cliente
-              neste caso criaremos uma pasta denominada client, onde estará
-              JavaScript client-side, o CSS e o HTML
-            </p>
-            <figure class="">
-              <img src="../img/code/appuse.PNG" class="code img-responsive">
-            </figure>
-          </section>
-          <section id="Interface">
-            <h4 class="font-weight-bold">Criando a interface da aplicação</h4>
-            <hr>
-            <h4 class="">Criando HTML</h4>
-            <p class="text-justify">
-              Após a criação da pasta client, precisamos criar um arquivo html, assim
-              crie um arquivo chamado index.html
-            </p>
-            <figure class="">
-              <img src="../img/code/html.PNG" class="code img-responsive">
-            </figure>
-            <p class="">
-              <a href="https://github.com/Yurematias/SmartSilo/blob/master/client/style.css">Obter CSS da
-                aplicação</a>
-              &nbsp;-&nbsp;
-              <a href="https://github.com/Yurematias/SmartSilo/blob/master/client/index.html">Obter HTML
-                completo</a>
-            </p>
-            <div class="text-justify">
-              Repare que foi usado bibliotecas externas, a PlotlyJS para construir os gráficos
-              e a jQuery que será usada no script customizado e na PlotlyJS
-              Você pode baixar ou obter o CDN do jQuery no site oficial:
-            </div>
-            <a href="https://jquery.com/" class="">https://jquery.com/</a>
-            <br>
-            <div class="">
-              A PlotlyJS podemos baixá-la ou obter o CDN em:
-            </div>
-            <a href="https://plot.ly/javascript/" class="">https://plot.ly/javascript/</a>
-            <br>
-            <p class="text-justify">
-              Para referenciar o Socket.io basta adcionar um script com o endereço:
-              "socket.io/socket.io.js"
-              Isso já faz com que o Socket.io funcione, uma vez que ele já está
-              instalado no módulo da pasta do projeto no NodeJS
-            </p>
-            <h4 class="">Criando JavaScript do front-end</h4>
-            <a class="" href="https://github.com/Yurematias/SmartSilo/blob/master/client/script.js">Obter
-              front-end JavaScript completo</a>
-            <p class="text-justify">
-              Uma vez criado o HTML, podemos criar o script que será vinculado a essa página, onde terá
-              toda a
-              configuração referente aos gráficos, além da manipulação da DOM
-            </p>
-            <p class="">
-              Primeiramente criaremos as variaveis a serem utilizadas
-            </p>
-            <figure class="">
-              <img src="../img/code/variables.PNG" class="code img-responsive">
-            </figure>
-            <p class="text-justify">
-              Antes de plotar os gráficos com a PlotlyJS é preciso definir suas configurações
-              assim é preciso criar um objeto para o layout do gráfico e arrays com as linhas de cada
-              gráfico
-            </p>
-            <figure class="">
-              <img src="../img/code/layout.PNG" class="code img-responsive">
-            </figure class="text-justify">
-            <p class="text-justify">
-              Cada linha de um gráfico na PlotlyJS é um objeto, como varias linhas serão
-              criadas
-              é mais adequado criar uma função construtora para instanciar objetos do tipo Trace (linha),
-              sendo assim escreva a seguinte função:
-            </p>
-            <figure class="">
-              <img src="../img/code/TraceConstructor.PNG" class="code img-responsive">
-            </figure>
-            <p class="text-justify">
-              Depois de criada a função construtora que servirá como um molde para a instanciação dos
-              objetos,
-              podemos de instanciar as linhas, colocando-as dentro de arrays
-            </p>
-            <figure class="">
-              <img src="../img/code/tracesArray.PNG" class="img-responsive code">
-            </figure>
-            <figure class="">
-              <img src="../img/code/TraceCB.PNG" class="img-responsive code">
-            </figure>
-            <p class="text-justify">
-              Definiremos uma função que retornará o tempo passado em segundos, este valor será utilizado
-              para
-              saber o tempo passado desde o início da execução de um gráfico
-            </p>
-            <figure class="">
-              <img src="../img/code/secondsPassed.PNG" class="img-responsive code">
-            </figure>
-            <p class="text-justify">
-              Agora criaremos uma função para atualizar o primeiro gráfico que será o de voltagem
-              Mais a frente passareos essa função como callback para um setInterval
-            </p>
-            <figure class="">
-              <img src="../img/code/updateGraph.PNG" class="code img-responsive">
-            </figure>
-            <p class="text-justify">
-              Faremos outra função para atualizar o gráfico do bit de controle, com a ressalva de que
-              não será preciso definir algumas variáveis, uma vez que podemos usar as variáveis
-              de iteração da função anterior, pois os dois gráficos serão executados simultaneamente com a
-              função
-              setInterval
-            </p>
-            <figure class="">
-              <img src="../img/code/updateGraphCB.PNG" class="code img-responsive">
-            </figure>
-            <p class="text-justify">
-              Agora definiremos alguns comandos a serem executados assim que a página for carregada.
-              Primeiramente plotamos os 2 gráficos, alteramos algumas configurações da DOM e
-              colocamos as chamadas para a função socket.on que atribuirá eventos a serem chamados
-              se determinadas mensagens do servidor forem recebidas.
-            </p>
-            <figure class="">
-              <img src="../img/code/onload.PNG" class="code img-responsive">
-            </figure>
-            <p class="text-justify">
-              Depois de plotados os gráficos, podemos passar as funções de atualizar
-              como callbacks para a função setInterval e assim fazer os gráficos
-              atualizarem em tempo real
-            </p>
-            <figure class="">
-              <img src="../img/code/setinterval.PNG" class="code img-responsive">
-            </figure>
-            <p class="text-justify">
-              Definiremos uma função para pausar ou retomar os gráficos, funcionalidade importante par
-              caso o usuário deseje visualizar os valores ou mesmo fazer uma captura de tela
-            </p>
-            <figure class="">
-              <img src="../img/code/pauseResume.PNG" class="code img-responsive">
-            </figure>
-            <p class="text-justify">
-              Definimos também uma função para alterar o Set Point, onde o usuário digitará um novo
-              Set Point e esse valor passará a ser exibido no gráfico de voltagem, além de ir pro servidor
-            </p>
-            <figure class="">
-              <img src="../img/code/changeSetPoint.PNG" class="code img-responsive">
-            </figure>
-          </section>
-          <section id="Finalizando">
-            <h2 class="">Finalizando o servidor</h2>
-            <hr>
-            <p class="text-justify">
-              Depois de criar todo o front-end da aplicação, está na hora de terminarmos
-              o servidor e escrevermos todo o código do Arduino e do Socket.io do lado servidor.
-              O primeiro passo é declararmos um objeto do tipo porta referente ao Arduino
-              além de algumas variáveis importantes como os valores dos potenciômetros e o valor do Set
-              Point
-              desta forma escreva o seguinte código:
-            </p>
-            <figure class="">
-              <img src="../img/code/variablesServer.PNG" class="code img-responsive">
-            </figure>
-            <p class="text-justify">
-              Após isso vamos definir o que será feito quando o Arduino estiver no estado de pronto.
-              Primeiramente instanciamos os objetos dos potenciômetros
-            </p>
-            <figure class="">
-              <img src="../img/code/declaringPots.PNG" class="code img-responsive">
-            </figure>
-            <p class="text-justify">
-              Depois de instanciar os potenciômetros, vamos criar toda a base do back-end da aplicação.
-              Definimos o que será feito quand o usuário conectar na aplicação. definimos que
-              quando os potenciômetros estiverem nos estados de prontos, a aplicação precisa enviar esses
-              dados em tempo real,
-              utilizaremos um intervalo de tempo de 300 milisegundos, ou seja, a cada 300 milisegundos o
-              servidor mandará os dados
-              do Arduino para o cliente é aí que entra o Socket.io com a função emit na aplicação.
-            </p>
-            <p class="text-justify">
-              Desta forma colocamos as funções referentes ao Socket.io para quando os potenciômetros
-              estiverem prontos, os dados serem mandados para o cliente com o socket.emit dentro de um
-              setinterval.
-            </p>
-            <p class="text-justify">
-              Note que é preciso realizar uma conversão dos valores dos potenciômetros,
-              uma vez que o UNO possui conversor ADC de 10 bits de resolução, assim lê valores entre 0 e
-              1023,
-              desta forma é preciso realizar a conversão para tensão, multiplicando por 5/1024.
-            </p>
-            <figure class="">
-              <img src="../img/code/pot-emit.PNG" class="code img-responsive">
-            </figure>
-            <p class="text-justify">
-              Abaixo escrevemos um trecho de código para alterar o Set Point quando o usuário o tiver
-              alterado
-              no cliente.
-              Para isso escreva:
-            </p>
-            <figure class="">
-              <img src="../img/code/changeSetPServer.PNG" class="code img-responsive">
-            </figure>
-            <p class="text-justify">
-              Desta forma temos a função completa que será executada quando o Arduino estiver pronto
-            </p>
-            <figure class="text-justify">
-              <img src="../img/code/arduino-on.PNG" class="code img-responsive">
-            </figure>
-            <p class="text-justify">
-              Finalizando o back-end, só é preciso fazer o http ouvir na porta anteriormente declarada,
-              para assim podermos acessar a aplicação de maneira local no endereço: http://localhost:8000
-            </p>
-            <figure class="">
-              <img src="../img/code/http-listen.PNG" class="code img-responsive">
-            </figure>
-          </section>
-          <section class="Resultado">
-            <h2 class="">Resultado: </h2>
-            <hr>
-            <p class="">Acessando o endereço citado podermos finalmente ver a aplicação pronta: </p>
-            <figure class="">
-              <img src="../img/code/SmartSilo.PNG" class="img-responsive">
-            </figure>
-          </section>
-          <section class="text-center" id="Referencias">
-            <h4 class="font-weight-bold ">Referências</h4> <br>
-            <a href="http://johnny-five.io/">Site oficial do Johnny-Five</a> <br>
-            <a href="https://socket.io/">Site oficial do Socket.io</a> <br>
-            <a href="https://nodejs.org/en/">Site oficial do NodeJS</a> <br>
-            <a href="https://www.youtube.com/watch?v=kmT5mVBF2tI">Canal do YouTube: Joao Rubens Marchete
-              Filho</a> <br>
-            <a href="https://www.youtube.com/watch?v=qZUDuBcbJ9A">Canal do Youtube: Dev Pleno</a> <br>
-          </section>
-        </div>
-      </div>
-      <div class="col-1 col-lg-2 d-none d-md-block navigation fixed-right">
-        <h5 class="">Navegação</h5>
-        <ul>
-          <li><a href="#Introdução">Introdução</a></li>
-          <li><a href="#Tecnologias">Tecnologias utilizadas</a></li>
-          <li><a href="#Material">Material necessário</a></li>
-          <li><a href="#Ambiente">Preparando o Ambiente</a></li>
-          <li><a href="#Arduino">Preparando o Arduino</a></li>
-          <li><a href="#NodeJS">Pacotes do NodeJS</a></li>
-          <li><a href="#Servidor">Criando servidor NodeJS</a></li>
-          <li><a href="#Interface">Criando interface</a></li>
-          <li><a href="#Resultado">Resultado</a></li>
-          <li><a href="#Referencias">REferências</a></li>
+  <div id="app">
+    <nav class="navbar navbar-expand-sm navbar-dark dark text-light">
+      <a class="navbar-brand">
+        <img src="../img/smart.png" class="logo" href="/">
+      </a>
+      <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="my-nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="./sobre.html" v-text="conteudos.sobre">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./autor.html" v-text="conteudos.autor" tabindex="-1" aria-disabled="true">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./metodologia.html" v-text="conteudos.metodologia" tabindex="-1" aria-disabled="true">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./tutoriais.html" v-text="conteudos.tutoriais" tabindex="-1" aria-disabled="true">
+            </a>
+          </li>
+          <li class="nav-item" id="selecao-idioma">
+            <small class="smallname" for="idioma" v-text="conteudos.idioma"></small>
+            <select id="idioma" class="form-control">
+              <option @click="setIdioma('portugues')">Português brasileiro</option>
+              <option @click="setIdioma('english')">English</option>
+            </select>
+          </li>
         </ul>
       </div>
-    </div>
-  </div>
-  <footer class="page-footer font-small teal pt-4 mt-0">
-    <div class="container-fluid text-center text-md-center">
+    </nav>
+    <div class="container-fluid mt-20">
       <div class="row">
-        <div class="col-md-6 mt-md-0 mt-3">
-          <p>Escrito e desenvolvido por Yure Matias</p>
+        <div class="col-md-10 col-12 main">
+          <div class="container-fluid padding-dash">
+            <section id="introdução">
+              <h3 class="font-weight-bold">Monitoramento de sinais com JavaScript e Arduino</h3>
+                <hr>
+                <div class="row">
+                  <div class="col-md-5 text-justify">
+                    <p>
+                      Neste tutorial, você verá como construir uma página web para monitoramento
+                      de sinais de potenciômetros ligados ao Arduino,
+                      usando apenas o JavaScript como liguagem de programação no cliente, servidor e
+                      no
+                      hardware.
+                    </p>
+                    <p>
+                      Para isso será utilizado o NodeJS para execução do JavaScript fora
+                      do navegador, o framework Johnny-five que possibilita fazer a comunicação serial
+                      entre o Node e a placa Arduino, e o Socket.io, biblioteca que será usada para
+                      enviar em tempo real os dados do Arduino para o gráfico no dashboard.
+                    </p>
+                  </div>
+                  <figure class="col-md-6 offset-md-1">
+                    <img src="../img/diagram.png" class="img-responsive photo">
+                  </figure>
+                </div>
+            </section>
+            <section id="Tecnologias">
+              <h4 class="font-weight-bold">Tecnologias utilizadas</h4>
+              <hr>
+              <h4>NodeJS</h4>
+              <article class="row">
+                <p class="col-md-5 text-justify">
+                  O NodeJS é basicamente um ambiente de execução
+                  JavaScript do lado servidor, permitindo a
+                  interpretação da linguagem fora do ambiente dos
+                  browsers. Sua criação abriu a possibilidade
+                  para desenvolver vários sistemas diferentes em
+                  JavaScript que vão desde programas desktop, servidores
+                  web complexos, até sistemas baseados em hardware como é o
+                  caso da aplicação a ser desenvolvida neste tutorial.
+                  <a href="https://nodejs.org/en/">NodeJS site oficial</a>
+                </p>
+                <figure class="col-md-6 offset-md-1">
+                  <img src="../img/nodejs.jpg" class="small-photo img-responsive">
+                </figure>
+              </article>
+              <h4>Johnny-Five</h4>
+              <article class="row">
+                <p class="col-md-5 text-justify">
+                  Johnny-five é um framework que possibilita interagir e controlar
+                  hardware utilizando a linguagem JavaScript no NodeJS.
+                  Tendo seu lançamento em 2012 a biblioteca e a coleção de recursos
+                  são mantidas até hoje por uma comunidade ampla de desenvolvedores
+                  aficionados em robótica, hardware e software.
+                  <a href="http://johnny-five.io/">Johnny-Five site oficial</a>
+                </p>
+                <figure class="col-md-6 offset-md-1">
+                  <img src="../img/johnny-five.png" class="small-photo img-responsive">
+                </figure>
+              </article>
+              <h4>Socket.io</h4>
+              <article class="row">
+                <p class="col-md-5 text-justify">
+                  O Socket.io é uma biblioteca JavaScript para aplicações web realizarem
+                  comunicação bidirecional, em tempo real e baseada em eventos
+                  entre clientes e servidores da web.
+                  Ele é constituído de duas partes, uma biblioteca do lado do front-end, a que é
+                  executada
+                  nos navegadores, e a do lado back-end que é executada no lado do servidor no
+                  NodeJS. A biblioteca dispõe de várias funcionalidades como detecção de desconexão e
+                  suporte à reconexão automática.
+                  <a href="https://socket.io/">Socket.io site oficial</a>
+                </p>
+                <figure class="col-md-6 offset-md-1">
+                  <img src="../img/socket.png" class="small-photo img-responsive">
+                </figure>
+              </article>
+            </section>
+            <section id="Material">
+              <h4 class="font-weight-bold">Material necessário: </h4>
+              <hr>
+              <p>Para seguir com este tutorial, você irá precisar dos seguintes componentes: </p>
+              <ul class="">
+                <li>
+                  <a
+                    href="https://www.buscape.com.br/informatica/suprimentos/suprimentos-para-informatica/arduino-uno-b.html">
+                    Arduino
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.buscape.com.br/search/potenciometro?fromSearchBox=true&produto=potenciometro">
+                    Potenciômetro
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    Jumpers
+                  </a>
+                </li>
+                <li class="">
+                  <a href="">Protoboard</a>
+                </li>
+              </ul>
+            </section>
+            <section id="Ambiente">
+              <h4 class="font-weight-bold">Preparando o ambiente:</h4>
+              <hr>
+              <ul class="">
+                <li>
+                  Instale a IDE do Arduino
+                </li>
+                <li>
+                  Instale o Node.js
+                </li>
+                <li class="text-justify">
+                  Instale o Visual Studio Express 2010 32 bit <br />
+                  (certifique-se de que você tem todas as dependencias
+                  do C++ selecionadas)
+                </li>
+                <li>Instale o Python 2.7.3</li>
+                <li>Abra o cmd e digite
+                  <div class="command">
+                    set PATH=%PATH%;C:\Python27
+                  </div>
+                </li>
+                <li>Instale o node-gyp
+                  <div class="command">
+                    npm install -g node-gyp
+                  </div>
+                </li>
+              </ul>
+            </section>
+            <section class="" id="NodeJS">
+              <h4 class="font-weight-bold">Instalando pacotes no NodeJS</h4>
+              <hr>
+              <ul>
+                <li class="text-justify">
+                  Após a devida instalação do Johnny-five devemos
+                  na pasta do projeto, assim digite no terminal:
+                  <div class="command"> npm install --save johnny-five</div>
+                </li>
+                <li class="text-justify">
+                  Também será necessário instalar o Express para criar nosso servidor web para isso digite
+                  no
+                  terminal:
+                  <div class="command">npm install --save express</div>
+                </li>
+                <li>
+                  Para instalação do Socket.io no NodeJS insira o comando:
+                  <div class="command">npm install --save socket.io</div>
+                </li>
+              </ul>
+            </section>
+            <section id="Arduino">
+              <h4 class="font-weight-bold">Preparando o Arduino</h4>
+              <hr>
+              <p class="text-justify">
+                Antes de começarmos a codificar precisamos
+                deixar o arduino no ponto para receber os sinais
+                de voltagem dos potenciômetros, para isso siga o esquema a
+                seguir colocando a saída dos potenciômetros
+                nas entradas analógicas A0 e A1 do Arduino
+              </p>
+              <figure class="">
+                <img src="../img/fritzing.JPG" class="large-photo img-responsive">
+              </figure>
+            </section>
+            <section class="text-justify" id="Servidor">
+              <h4 class="font-weight-bold">Criando o servidor da aplicação</h4>
+              <hr>
+              <h4>Criando JavaScript do back-end</h4>
+              <p class="text-justify">Após toda essa configuração, finalmente
+                podemos criar o primeiro arquivo, que será o back-end da
+                aplicação. assim crie o arquivo server.js e importe as devidas
+                bibliotecas e frameworks anteriormente instaladas na pasta do NodeJS
+              </p>
+              <figure>
+                <img src="../img/code/requires.PNG" class="code img-responsive">
+              </figure>
+              <p class="text-justify">
+                Logo após isso definimos uma constante referente a porta que o servidor será
+                vinculado e definimos a pasta que será enviada nas requisições para o cliente
+                neste caso criaremos uma pasta denominada client, onde estará
+                JavaScript client-side, o CSS e o HTML
+              </p>
+              <figure class="">
+                <img src="../img/code/appuse.PNG" class="code img-responsive">
+              </figure>
+            </section>
+            <section id="Interface">
+              <h4 class="font-weight-bold">Criando a interface da aplicação</h4>
+              <hr>
+              <h4 class="">Criando HTML</h4>
+              <p class="text-justify">
+                Após a criação da pasta client, precisamos criar um arquivo html, assim
+                crie um arquivo chamado index.html
+              </p>
+              <figure class="">
+                <img src="../img/code/html.PNG" class="code img-responsive">
+              </figure>
+              <p class="">
+                <a href="https://github.com/Yurematias/SmartSilo/blob/master/client/style.css">Obter CSS da
+                  aplicação</a>
+                &nbsp;-&nbsp;
+                <a href="https://github.com/Yurematias/SmartSilo/blob/master/client/index.html">Obter HTML
+                  completo</a>
+              </p>
+              <div class="text-justify">
+                Repare que foi usado bibliotecas externas, a PlotlyJS para construir os gráficos
+                e a jQuery que será usada no script customizado e na PlotlyJS
+                Você pode baixar ou obter o CDN do jQuery no site oficial:
+              </div>
+              <a href="https://jquery.com/" class="">https://jquery.com/</a>
+              <br>
+              <div class="">
+                A PlotlyJS podemos baixá-la ou obter o CDN em:
+              </div>
+              <a href="https://plot.ly/javascript/" class="">https://plot.ly/javascript/</a>
+              <br>
+              <p class="text-justify">
+                Para referenciar o Socket.io basta adcionar um script com o endereço:
+                "socket.io/socket.io.js"
+                Isso já faz com que o Socket.io funcione, uma vez que ele já está
+                instalado no módulo da pasta do projeto no NodeJS
+              </p>
+              <h4 class="">Criando JavaScript do front-end</h4>
+              <a class="" href="https://github.com/Yurematias/SmartSilo/blob/master/client/script.js">Obter
+                front-end JavaScript completo</a>
+              <p class="text-justify">
+                Uma vez criado o HTML, podemos criar o script que será vinculado a essa página, onde terá
+                toda a
+                configuração referente aos gráficos, além da manipulação da DOM
+              </p>
+              <p class="">
+                Primeiramente criaremos as variaveis a serem utilizadas
+              </p>
+              <figure class="">
+                <img src="../img/code/variables.PNG" class="code img-responsive">
+              </figure>
+              <p class="text-justify">
+                Antes de plotar os gráficos com a PlotlyJS é preciso definir suas configurações
+                assim é preciso criar um objeto para o layout do gráfico e arrays com as linhas de cada
+                gráfico
+              </p>
+              <figure class="">
+                <img src="../img/code/layout.PNG" class="code img-responsive">
+              </figure class="text-justify">
+              <p class="text-justify">
+                Cada linha de um gráfico na PlotlyJS é um objeto, como varias linhas serão
+                criadas
+                é mais adequado criar uma função construtora para instanciar objetos do tipo Trace (linha),
+                sendo assim escreva a seguinte função:
+              </p>
+              <figure class="">
+                <img src="../img/code/TraceConstructor.PNG" class="code img-responsive">
+              </figure>
+              <p class="text-justify">
+                Depois de criada a função construtora que servirá como um molde para a instanciação dos
+                objetos,
+                podemos de instanciar as linhas, colocando-as dentro de arrays
+              </p>
+              <figure class="">
+                <img src="../img/code/tracesArray.PNG" class="img-responsive code">
+              </figure>
+              <figure class="">
+                <img src="../img/code/TraceCB.PNG" class="img-responsive code">
+              </figure>
+              <p class="text-justify">
+                Definiremos uma função que retornará o tempo passado em segundos, este valor será utilizado
+                para
+                saber o tempo passado desde o início da execução de um gráfico
+              </p>
+              <figure class="">
+                <img src="../img/code/secondsPassed.PNG" class="img-responsive code">
+              </figure>
+              <p class="text-justify">
+                Agora criaremos uma função para atualizar o primeiro gráfico que será o de voltagem
+                Mais a frente passareos essa função como callback para um setInterval
+              </p>
+              <figure class="">
+                <img src="../img/code/updateGraph.PNG" class="code img-responsive">
+              </figure>
+              <p class="text-justify">
+                Faremos outra função para atualizar o gráfico do bit de controle, com a ressalva de que
+                não será preciso definir algumas variáveis, uma vez que podemos usar as variáveis
+                de iteração da função anterior, pois os dois gráficos serão executados simultaneamente com a
+                função
+                setInterval
+              </p>
+              <figure class="">
+                <img src="../img/code/updateGraphCB.PNG" class="code img-responsive">
+              </figure>
+              <p class="text-justify">
+                Agora definiremos alguns comandos a serem executados assim que a página for carregada.
+                Primeiramente plotamos os 2 gráficos, alteramos algumas configurações da DOM e
+                colocamos as chamadas para a função socket.on que atribuirá eventos a serem chamados
+                se determinadas mensagens do servidor forem recebidas.
+              </p>
+              <figure class="">
+                <img src="../img/code/onload.PNG" class="code img-responsive">
+              </figure>
+              <p class="text-justify">
+                Depois de plotados os gráficos, podemos passar as funções de atualizar
+                como callbacks para a função setInterval e assim fazer os gráficos
+                atualizarem em tempo real
+              </p>
+              <figure class="">
+                <img src="../img/code/setinterval.PNG" class="code img-responsive">
+              </figure>
+              <p class="text-justify">
+                Definiremos uma função para pausar ou retomar os gráficos, funcionalidade importante par
+                caso o usuário deseje visualizar os valores ou mesmo fazer uma captura de tela
+              </p>
+              <figure class="">
+                <img src="../img/code/pauseResume.PNG" class="code img-responsive">
+              </figure>
+              <p class="text-justify">
+                Definimos também uma função para alterar o Set Point, onde o usuário digitará um novo
+                Set Point e esse valor passará a ser exibido no gráfico de voltagem, além de ir pro servidor
+              </p>
+              <figure class="">
+                <img src="../img/code/changeSetPoint.PNG" class="code img-responsive">
+              </figure>
+            </section>
+            <section id="Finalizando">
+              <h2 class="">Finalizando o servidor</h2>
+              <hr>
+              <p class="text-justify">
+                Depois de criar todo o front-end da aplicação, está na hora de terminarmos
+                o servidor e escrevermos todo o código do Arduino e do Socket.io do lado servidor.
+                O primeiro passo é declararmos um objeto do tipo porta referente ao Arduino
+                além de algumas variáveis importantes como os valores dos potenciômetros e o valor do Set
+                Point
+                desta forma escreva o seguinte código:
+              </p>
+              <figure class="">
+                <img src="../img/code/variablesServer.PNG" class="code img-responsive">
+              </figure>
+              <p class="text-justify">
+                Após isso vamos definir o que será feito quando o Arduino estiver no estado de pronto.
+                Primeiramente instanciamos os objetos dos potenciômetros
+              </p>
+              <figure class="">
+                <img src="../img/code/declaringPots.PNG" class="code img-responsive">
+              </figure>
+              <p class="text-justify">
+                Depois de instanciar os potenciômetros, vamos criar toda a base do back-end da aplicação.
+                Definimos o que será feito quand o usuário conectar na aplicação. definimos que
+                quando os potenciômetros estiverem nos estados de prontos, a aplicação precisa enviar esses
+                dados em tempo real,
+                utilizaremos um intervalo de tempo de 300 milisegundos, ou seja, a cada 300 milisegundos o
+                servidor mandará os dados
+                do Arduino para o cliente é aí que entra o Socket.io com a função emit na aplicação.
+              </p>
+              <p class="text-justify">
+                Desta forma colocamos as funções referentes ao Socket.io para quando os potenciômetros
+                estiverem prontos, os dados serem mandados para o cliente com o socket.emit dentro de um
+                setinterval.
+              </p>
+              <p class="text-justify">
+                Note que é preciso realizar uma conversão dos valores dos potenciômetros,
+                uma vez que o UNO possui conversor ADC de 10 bits de resolução, assim lê valores entre 0 e
+                1023,
+                desta forma é preciso realizar a conversão para tensão, multiplicando por 5/1024.
+              </p>
+              <figure class="">
+                <img src="../img/code/pot-emit.PNG" class="code img-responsive">
+              </figure>
+              <p class="text-justify">
+                Abaixo escrevemos um trecho de código para alterar o Set Point quando o usuário o tiver
+                alterado
+                no cliente.
+                Para isso escreva:
+              </p>
+              <figure class="">
+                <img src="../img/code/changeSetPServer.PNG" class="code img-responsive">
+              </figure>
+              <p class="text-justify">
+                Desta forma temos a função completa que será executada quando o Arduino estiver pronto
+              </p>
+              <figure class="text-justify">
+                <img src="../img/code/arduino-on.PNG" class="code img-responsive">
+              </figure>
+              <p class="text-justify">
+                Finalizando o back-end, só é preciso fazer o http ouvir na porta anteriormente declarada,
+                para assim podermos acessar a aplicação de maneira local no endereço: http://localhost:8000
+              </p>
+              <figure class="">
+                <img src="../img/code/http-listen.PNG" class="code img-responsive">
+              </figure>
+            </section>
+            <section class="Resultado">
+              <h2 class="">Resultado: </h2>
+              <hr>
+              <p class="">Acessando o endereço citado podermos finalmente ver a aplicação pronta: </p>
+              <figure class="">
+                <img src="../img/code/SmartSilo.PNG" class="img-responsive">
+              </figure>
+            </section>
+            <section class="text-center" id="Referencias">
+              <h4 class="font-weight-bold ">Referências</h4> <br>
+              <a href="http://johnny-five.io/">Site oficial do Johnny-Five</a> <br>
+              <a href="https://socket.io/">Site oficial do Socket.io</a> <br>
+              <a href="https://nodejs.org/en/">Site oficial do NodeJS</a> <br>
+              <a href="https://www.youtube.com/watch?v=kmT5mVBF2tI">Canal do YouTube: Joao Rubens Marchete
+                Filho</a> <br>
+              <a href="https://www.youtube.com/watch?v=qZUDuBcbJ9A">Canal do Youtube: Dev Pleno</a> <br>
+            </section>
+          </div>
         </div>
-        <hr class="clearfix w-100 d-md-none pb-3">
-        <div class="col-md-6 mb-md-0 mb-3">
-          <p>Universidade Federal do Rio Grande do Norte</p>
+        <div class="col-1 col-lg-2 d-none d-md-block navigation fixed-right">
+          <h5 class="">Navegação</h5>
+          <ul>
+            <li><a href="#Introdução">Introdução</a></li>
+            <li><a href="#Tecnologias">Tecnologias utilizadas</a></li>
+            <li><a href="#Material">Material necessário</a></li>
+            <li><a href="#Ambiente">Preparando o Ambiente</a></li>
+            <li><a href="#Arduino">Preparando o Arduino</a></li>
+            <li><a href="#NodeJS">Pacotes do NodeJS</a></li>
+            <li><a href="#Servidor">Criando servidor NodeJS</a></li>
+            <li><a href="#Interface">Criando interface</a></li>
+            <li><a href="#Resultado">Resultado</a></li>
+            <li><a href="#Referencias">REferências</a></li>
+          </ul>
         </div>
       </div>
     </div>
-    <div class="footer-copyright text-center py-3">© 2019 Copyright:
-      <a href="http://github.com/yurematias"> Yure</a>
-    </div>
-  </footer>
+    <footer class="page-footer font-small teal pt-4 mt-0">
+      <div class="container-fluid text-center text-md-center">
+        <div class="row">
+          <div class="col-md-6 mt-md-0 mt-3">
+            <p>Escrito e desenvolvido por Yure Matias</p>
+          </div>
+          <hr class="clearfix w-100 d-md-none pb-3">
+          <div class="col-md-6 mb-md-0 mb-3">
+            <p>Universidade Federal do Rio Grande do Norte</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright text-center py-3">© 2019 Copyright:
+        <a href="http://github.com/yurematias"> Yure</a>
+      </div>
+    </footer>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="../js/main.js" type="module"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>

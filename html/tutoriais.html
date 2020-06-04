@@ -13,56 +13,63 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-sm navbar-dark dark text-light">
-    <a class="navbar-brand" href="/">
-      <img src="../img/smart.png" class="logo">
-    </a>
-    <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div id="my-nav" class="collapse navbar-collapse">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="../index.html">
-            Sobre
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./autor.html" tabindex="-1" aria-disabled="true">
-            Sobre o autor
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./metodologia.html" tabindex="-1" aria-disabled="true">
-            Metodologia
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./tutoriais.html" tabindex="-1" aria-disabled="true">
-            Tutoriais relacionados
-          </a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-  <div class="container">
-    <div class="card-group row">
-      <a href="dashboard.html" class="card card-t col-lg-6 text-decoration-none text-dark">
-        <div class="card-body">
-          <img src="../img/foto.jpg" alt="" srcset="" class="card-img">
-          <h3 class="card-title">
-            Monitoramento de sinais com JavaScript e Arduino
-          </h3>
-          <p class="card-text text-justify">
-            Neste tutorial, você verá como construir uma página web para monitoramento de sinais de potenciômetros
-            ligados ao Arduino, usando apenas o JavaScript como liguagem de programação no cliente, servidor e no
-            hardware.
-          </p>
-        </div>
+  <div id="app">
+    <nav class="navbar navbar-expand-sm navbar-dark dark text-light">
+      <a class="navbar-brand">
+        <img src="../img/smart.png" class="logo" href="/">
       </a>
+      <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="my-nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="./sobre.html" v-text="conteudos.sobre">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./autor.html" v-text="conteudos.autor" tabindex="-1" aria-disabled="true">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./metodologia.html" v-text="conteudos.metodologia" tabindex="-1" aria-disabled="true">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./tutoriais.html" v-text="conteudos.tutoriais" tabindex="-1" aria-disabled="true">
+            </a>
+          </li>
+          <li class="nav-item" id="selecao-idioma">
+            <small class="smallname" for="idioma" v-text="conteudos.idioma"></small>
+            <select id="idioma" class="form-control">
+              <option @click="setIdioma('portugues')">Português brasileiro</option>
+              <option @click="setIdioma('english')">English</option>
+            </select>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="card-group row">
+        <a href="dashboard.html" class="card card-t col-lg-6 text-decoration-none text-dark">
+          <div class="card-body">
+            <img src="../img/foto.jpg" alt="" srcset="" class="card-img">
+            <h3 class="card-title">
+              Monitoramento de sinais com JavaScript e Arduino
+            </h3>
+            <p class="card-text text-justify">
+              Neste tutorial, você verá como construir uma página web para monitoramento de sinais de potenciômetros
+              ligados ao Arduino, usando apenas o JavaScript como liguagem de programação no cliente, servidor e no
+              hardware.
+            </p>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="../js/main.js" type="module"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>

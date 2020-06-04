@@ -12,79 +12,81 @@
     <link rel="stylesheet" href="../css/flex.css">
   </head>
   <body>
-    
-    <nav class="navbar navbar-expand-sm navbar-dark dark text-light">
-      <a class="navbar-brand" href="/">
-        <img src="../img/smart.png" class="logo">
-      </a>
-      <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div id="my-nav" class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="../index.html">
-              Sobre
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./autor.html" tabindex="-1" aria-disabled="true">
-              Sobre o autor
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./metodologia.html" tabindex="-1" aria-disabled="true">
-              Metodologia
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./tutoriais.html" tabindex="-1" aria-disabled="true">
-              Tutoriais relacionados
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-md-5">
-          <h3 class="font-weight-bold">
-            Metodologia
-          </h3>
-          <p class="justify-text">
-            &nbsp; &nbsp; &nbsp; &nbsp;Nessa seção você verá um histórico resumido 
-            sobre como a aplicação SmartSilo está sendo desenvolvida 
-            desde a parte visual com o VueJS passando pelo backend com o NodeJS 
-            e finalmente a parte da infraestrutura utilizando a placa Arduino 
-            e um kit secador de grãos para simular um ambiente de um silo de armazenagem
-          </p>
+    <div id="app">
+      <nav class="navbar navbar-expand-sm navbar-dark dark text-light">
+        <a class="navbar-brand">
+          <img src="../img/smart.png" class="logo" href="/">
+        </a>
+        <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="my-nav" class="collapse navbar-collapse">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="./sobre.html" v-text="conteudos.sobre">
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./autor.html" v-text="conteudos.autor" tabindex="-1" aria-disabled="true">
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./metodologia.html" v-text="conteudos.metodologia" tabindex="-1" aria-disabled="true">
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./tutoriais.html" v-text="conteudos.tutoriais" tabindex="-1" aria-disabled="true">
+              </a>
+            </li>
+            <li class="nav-item" id="selecao-idioma">
+              <small class="smallname" for="idioma" v-text="conteudos.idioma"></small>
+              <select id="idioma" class="form-control">
+                <option @click="setIdioma('portugues')">Português brasileiro</option>
+                <option @click="setIdioma('english')">English</option>
+              </select>
+            </li>
+          </ul>
         </div>
-        <div class="col-md-7">
-          <img src="https://raw.githubusercontent.com/Yurematias/smartsilo/master/readme/screenshot.png" class="img-responsive">
-        </div>
-      </div>
-    </div>
-
-
-    <footer class="page-footer font-small teal pt-4 mt-0">
-      <div class="container-fluid text-center text-md-center">
+      </nav>
+      <div class="container">
         <div class="row">
-          <div class="col-md-6 mt-md-0 mt-3">
-            <p>Escrito e desenvolvido por Yure Matias</p>
+          <div class="col-md-5">
+            <h3 class="font-weight-bold">
+              Metodologia
+            </h3>
+            <p class="justify-text">
+              &nbsp; &nbsp; &nbsp; &nbsp;Nessa seção você verá um histórico resumido 
+              sobre como a aplicação SmartSilo está sendo desenvolvida 
+              desde a parte visual com o VueJS passando pelo backend com o NodeJS 
+              e finalmente a parte da infraestrutura utilizando a placa Arduino 
+              e um kit secador de grãos para simular um ambiente de um silo de armazenagem
+            </p>
           </div>
-          <hr class="clearfix w-100 d-md-none pb-3">
-          <div class="col-md-6 mb-md-0 mb-3">
-            <p>Universidade Federal do Rio Grande do Norte</p>
+          <div class="col-md-7">
+            <img src="https://raw.githubusercontent.com/Yurematias/smartsilo/master/readme/screenshot.png" class="img-responsive">
           </div>
         </div>
       </div>
-      <div class="footer-copyright text-center py-3">© 2019 Copyright:
-        <a href="http://github.com/yurematias"> Yure</a>
-      </div>
-    </footer>
-
+      <footer class="page-footer font-small teal pt-4 mt-0">
+        <div class="container-fluid text-center text-md-center">
+          <div class="row">
+            <div class="col-md-6 mt-md-0 mt-3">
+              <p>Escrito e desenvolvido por Yure Matias</p>
+            </div>
+            <hr class="clearfix w-100 d-md-none pb-3">
+            <div class="col-md-6 mb-md-0 mb-3">
+              <p>Universidade Federal do Rio Grande do Norte</p>
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright text-center py-3">© 2019 Copyright:
+          <a href="http://github.com/yurematias"> Yure</a>
+        </div>
+      </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="../js/main.js" type="module"></script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -4,17 +4,18 @@ import ptbr from './ptbr.js';
 const vueApp = new Vue({
   el: '#app',
   data: {
-    idioma: 'english',
+    idioma: 'portugues',
     conteudos: {
       sobre: ''
     }
   },
   methods: {
-    setConteudo(conteudo) {
-      this.conteudos[conteudo] = getConteudo(conteudo, this.idioma); 
+    setConteudo(conteudo, idioma) {
+      this.conteudos[conteudo] = getConteudo(conteudo, idioma ? idioma : this.idioma);
     },
     setIdioma(idioma) {
       this.idioma = idioma;
+      localStorage.setItem('idioma', this.idioma);
       carregarConteudo(this);
     }
   },
@@ -28,8 +29,8 @@ function carregarConteudo(vueApp) {
   const select = document.getElementById('idioma');
 
   select.style.backgroundImage = vueApp.idioma == 'portugues' ?
-    "url('./img/brazil-flag.svg')" :
-    "url('./img/uk-flag.jpg')"
+    "url('../img/brazil-flag.svg')" :
+    "url('../img/uk-flag.jpg')"
 
   select.style.backgroundSize = 'contain';
 }
