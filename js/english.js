@@ -1,6 +1,6 @@
 export default {
   sobre: 'About',
-  autor: 'About the author',
+  instalacao: 'Installation',
   metodologia: 'Methodology',
   tutoriais: 'Related tutorials',
   idioma: 'Language',
