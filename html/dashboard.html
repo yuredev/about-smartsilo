@@ -365,38 +365,87 @@ let layout = {
               <p class="text-justify">
                 Cada linha de um gráfico na PlotlyJS é um objeto, como varias linhas serão
                 criadas
-                é mais adequado criar uma função construtora para instanciar objetos do tipo Trace (linha),
+                é mais adequado criar uma função para instanciar objetos do tipo Trace (linha),
                 sendo assim escreva a seguinte função:
               </p>
-              <figure class="">
-                <img src="../img/code/TraceConstructor.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// função construtora para gerar objetos do tipo linha 
+function Trace(name = 'unnamed trace', valueTrace, color = '#000') {
+  this.name = name;
+  this.y = [valueTrace];
+  this.type = 'line';
+  this.mode = 'lines',
+  this.line = { color };
+}
+                </code>
+              </pre> 
               <p class="text-justify">
                 Depois de criada a função construtora que servirá como um molde para a instanciação dos
                 objetos,
                 podemos de instanciar as linhas, colocando-as dentro de arrays
               </p>
-              <figure class="">
-                <img src="../img/code/tracesArray.PNG" class="img-responsive code">
-              </figure>
-              <figure class="">
-                <img src="../img/code/TraceCB.PNG" class="img-responsive code">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+let traces = [new Trace('potenciômetro 1', value1, '#D00'),
+  new Trace('potenciômetro 2', value1, 'orange'),
+  new Trace('set point', setPoint, '#00A')
+];
+
+let traceCB = [new Trace('bit de controle', controlBitValue)];
+                </code>
+              </pre> 
               <p class="text-justify">
                 Definiremos uma função que retornará o tempo passado em segundos, este valor será utilizado
                 para
                 saber o tempo passado desde o início da execução de um gráfico
               </p>
-              <figure class="">
-                <img src="../img/code/secondsPassed.PNG" class="img-responsive code">
-              </figure>
+              <pre class="prettyprint">
+                <p class="text-justify">
+// retorna o tempo passado em segundos 
+function secondsPassed() {
+  let endTime = new Date();
+  let timeDiff = endTime - startTime; // retorno em milisegundos
+  timeDiff /= 1000; // convertendo para segundos 
+  return Math.round(timeDiff);
+}
+                </p>
+              </pre>
               <p class="text-justify">
                 Agora criaremos uma função para atualizar o primeiro gráfico que será o de voltagem
                 Mais a frente passareos essa função como callback para um setInterval
               </p>
-              <figure class="">
-                <img src="../img/code/updateGraph.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <p class="text-justify">
+// update do primeiro gráfico
+function updateGraph() {
+  Plotly.extendTraces('chart', { y: [[value1], [value2], [setPoint]] }, [0, 1, 2]);
+  secP = secondsPassed();
+  x++;
+  if (secP - cntSec > 59) {
+    cntSec += 60;
+    minutes++;
+  }
+  Plotly.relayout('chart', {
+    xaxix: {
+      showticklabels: false,
+      title: `tempo decorrido: ${minutes}:${secP < 60 ? secP : secP - cntSec}`,
+      range: [x - 50, x]
+    },
+    yaxis: {
+      title: 'voltagem',
+      range: [scaleMin, scaleMax]
+    }
+  });
+  if (value) {
+    document.getElementById('volts1').innerHTML = `1° potenciômetro: ${value.toFixed(2)} volts`
+  }
+  if (value2) {
+    document.getElementById('volts2').innerHTML = `2° potenciômetro: ${value.toFixed(2)} volts`
+  }
+}
+                </p>
+              </pre>
               <p class="text-justify">
                 Faremos outra função para atualizar o gráfico do bit de controle, com a ressalva de que
                 não será preciso definir algumas variáveis, uma vez que podemos usar as variáveis
@@ -404,9 +453,25 @@ let layout = {
                 função
                 setInterval
               </p>
-              <figure class="">
-                <img src="../img/code/updateGraphCB.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// update do gráfico de bit de controle
+function updateGraphCB() {
+  Plotly.extendTraces('chart2', { y: [[controlBitValue]] }, [0]);
+  Plotly.relayout('chart2', {
+    xaxis: {
+      showticklabels: false,
+      title: `tempo percorrido: ${minutes}:${secP < 60 ? secP : secP - cntSec}`,
+      range: [x - 50, x],
+    },
+    yaxis: {
+      title: 'bit de controle',
+      range: [-0.5, 1.5]
+    }
+  });
+}
+                </code>
+              </pre>   
               <p class="text-justify">
                 Agora definiremos alguns comandos a serem executados assim que a página for carregada.
                 Primeiramente plotamos os 2 gráficos, alteramos algumas configurações da DOM e
