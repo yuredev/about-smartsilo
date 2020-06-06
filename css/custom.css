@@ -15,28 +15,6 @@
   width: 330px;
 }
 
-small.smallname {
-  font-size: 0.7rem;
-  position: relative;
-  top: -10px;
-}
-
-#selecao-idioma {
-  margin-left: 10px;
-}
-
-select#idioma {
-  user-select: none;
-  cursor: pointer;
-  border-radius: 3px;
-  background-size: contain;
-  border-width: 0px;
-  width: 40px !important;
-  height: 20px !important;
-  position: relative;
-  top: -10px;
-}
-
 .apresentation{
   padding: 28px 120px;
   user-select: none;

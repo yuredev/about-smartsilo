@@ -25,27 +25,19 @@
       <div id="my-nav" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="./sobre.html" v-text="conteudos.sobre">
-            </a>
+            <a class="nav-link" href="./sobre.html">Sobre</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./instalacao.html" v-text="conteudos.instalacao" tabindex="-1" aria-disabled="true">
-            </a>
+            <a class="nav-link" href="./instalacao.html" tabindex="-1" aria-disabled="true">Instalação</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./metodologia.html" v-text="conteudos.metodologia" tabindex="-1" aria-disabled="true">
-            </a>
+            <a class="nav-link" href="./metodologia.html" tabindex="-1" aria-disabled="true">Metodologia</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./tutoriais.html" v-text="conteudos.tutoriais" tabindex="-1" aria-disabled="true">
-            </a>
+            <a class="nav-link" href="./tutoriais.html" tabindex="-1" aria-disabled="true">Tutoriais relacionados</a>
           </li>
-          <li class="nav-item" id="selecao-idioma">
-            <small class="smallname" for="idioma" v-text="conteudos.idioma"></small>
-            <select id="idioma" class="form-control">
-              <option @click="setIdioma('portugues')">Português brasileiro</option>
-              <option @click="setIdioma('english')">English</option>
-            </select>
+          <li class="nav-item">
+            <a class="nav-link" href="./english/tutoriais.html" tabindex="-1" aria-disabled="true">Versão em inglês</a>
           </li>
         </ul>
       </div>
