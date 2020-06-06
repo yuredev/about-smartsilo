@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/custom.css">
+  <link rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/github.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=sons-of-obsidian"></script>
 </head>
 
 <body>
@@ -220,18 +222,28 @@
                 aplicação. assim crie o arquivo server.js e importe as devidas
                 bibliotecas e frameworks anteriormente instaladas na pasta do NodeJS
               </p>
-              <figure>
-                <img src="../img/code/requires.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+const express = require('express'); // importando o Express 
+const app = express(); 
+const http = require('http').createServer(app); // criando servidor Expres com o http
+const io = require('socket.io')(http); // importando o Socket.io
+const five = require('johnny-five'); // importando o Johny-five 
+                </code>
+              </pre>
               <p class="text-justify">
                 Logo após isso definimos uma constante referente a porta que o servidor será
                 vinculado e definimos a pasta que será enviada nas requisições para o cliente
                 neste caso criaremos uma pasta denominada client, onde estará
                 JavaScript client-side, o CSS e o HTML
               </p>
-              <figure class="">
-                <img src="../img/code/appuse.PNG" class="code img-responsive">
-              </figure>
+              <!--?prettify lang=javascript-->
+              <pre class="prettyprint">
+                <code>
+const port = 8000;
+app.use(express.static(__dirname + '/client'));
+                </code>
+              </pre>             
             </section>
             <section id="Interface">
               <h4 class="font-weight-bold">Criando a interface da aplicação</h4>
@@ -239,11 +251,47 @@
               <h4 class="">Criando HTML</h4>
               <p class="text-justify">
                 Após a criação da pasta client, precisamos criar um arquivo html, assim
-                crie um arquivo chamado index.html
+                crie um arquivo chamado index.html e insira:
               </p>
-              <figure class="">
-                <img src="../img/code/html.PNG" class="code img-responsive">
-              </figure>
+              <xmp class="prettyprint">
+<div class="container big centralize-content" id="container1">
+  <h1>Monitor de voltagem</h1>
+  <div id="chart"></div>
+  <div class="centralize-content bottom-container">
+      <div class="form-setPoint">
+          <label for="setPoint">Set point: </label>
+          <input type="number" name="setPoint" id="setPoint" min="0" max="5">
+          <button onclick="changeSetPoint()">OK</button>
+      </div>
+      <div id="volts1" class="value">carregando...</div>
+      <div id="volts2" class="value"></div>
+  </div>
+</div>
+<div class="centralize-content" id="center-div">
+  <div>
+      <label for="controlBit">Exibir bit de controle: </label>
+      <input type="checkbox" id="controlBit" onclick="switchControlBitGraph()">
+  </div>
+  <button id="pause-resume" onclick="pauseResume()">Pausar</button>
+  <button onclick="changePins()">Mudar canais</button>
+</div>
+<div class="container big centralize-content" id="container2">
+  <h1 id="label-control-bit">
+      Bit de controle
+  </h1>
+  <div id="chart2"></div>
+  <div class="bottom-container"></div>
+</div>
+<!-- biblioteca para construção de gráficos-->
+<script src="libs/plotly.min.js"></script>               
+<!-- socket.io no lado cliente -->
+<script src="/socket.io/socket.io.js"></script>     
+<!-- CDN do jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<!-- script do projeto -->
+<script src="script.js"></script>
+              </xmp>             
               <p class="">
                 <a href="https://github.com/Yurematias/SmartSilo/blob/master/client/style.css">Obter CSS da
                   aplicação</a>
@@ -252,8 +300,12 @@
                   completo</a>
               </p>
               <div class="text-justify">
+                Pra estilizar baixe o arquivo CSS da aplicação no link acima e faça a link no seu arquivo index.html
+              </div>
+              <br />
+              <div class="text-justify">
                 Repare que foi usado bibliotecas externas, a PlotlyJS para construir os gráficos
-                e a jQuery que será usada no script customizado e na PlotlyJS
+                e a jQuery que será usada no script customizado e na PlotlyJS. <br />
                 Você pode baixar ou obter o CDN do jQuery no site oficial:
               </div>
               <a href="https://jquery.com/" class="">https://jquery.com/</a>
@@ -280,17 +332,36 @@
               <p class="">
                 Primeiramente criaremos as variaveis a serem utilizadas
               </p>
-              <figure class="">
-                <img src="../img/code/variables.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+const socket = io();                         // constante que armazenará o objeto do socket.io
+const startTime = new Date();                // armazenar o tempo inicial ao executar em milisegundos
+let value1, value2, controlBitValue = null;  // valores de y inseridos nos gráficos
+let setPoint = null;           
+let showBitGraph = false;                    // determina se o gráfico do setpoint será mostrado
+let pause = false;                           // determina se o gráfico está pasuado
+let x = 0;                                   // x representa os pontos no eixo x do gráfico 
+let cntSec = 0;                              // conta os segundos passados, a cada minuto ele ganha 60
+let minutes = 0;                             // minutes representa os minutos passados
+let secP;                                    // armazenar o tempo passado (secP = seconds passed)
+let scaleMin = 0, scaleMax = 5;              // escalas do primeiro gráfico
+let option = 'voltagem'                      // gráfico a ser exibido         
+                </code>
+              </pre>   
               <p class="text-justify">
                 Antes de plotar os gráficos com a PlotlyJS é preciso definir suas configurações
                 assim é preciso criar um objeto para o layout do gráfico e arrays com as linhas de cada
                 gráfico
               </p>
-              <figure class="">
-                <img src="../img/code/layout.PNG" class="code img-responsive">
-              </figure class="text-justify">
+              <pre class="prettyprint">
+                <code>
+let layout = {
+  height: 250,
+  autosize: true,
+  margin: { b: 50, t: 30}
+};
+                </code>
+              </pre>   
               <p class="text-justify">
                 Cada linha de um gráfico na PlotlyJS é um objeto, como varias linhas serão
                 criadas
@@ -466,7 +537,7 @@
             <li><a href="#Servidor">Criando servidor NodeJS</a></li>
             <li><a href="#Interface">Criando interface</a></li>
             <li><a href="#Resultado">Resultado</a></li>
-            <li><a href="#Referencias">REferências</a></li>
+            <li><a href="#Referencias">Referências</a></li>
           </ul>
         </div>
       </div>

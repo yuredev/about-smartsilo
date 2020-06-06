@@ -15,6 +15,14 @@
   width: 330px;
 }
 
+.prettyprint {
+  padding: 10px;
+}
+
+pre {
+  height: 100%;
+}
+
 .apresentation{
   padding: 28px 120px;
   user-select: none;
