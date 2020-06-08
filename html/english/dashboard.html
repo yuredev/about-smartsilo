@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="../../css/custom.css">
+  <link rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/github.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=sons-of-obsidian"></script>
 </head>
 
 <body>
@@ -25,16 +27,16 @@
       <div id="my-nav" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="./sobre.html">Sobre</a>
+            <a class="nav-link" href="./sobre.html">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./instalacao.html" tabindex="-1" aria-disabled="true">Instalação</a>
+            <a class="nav-link" href="./instalacao.html" tabindex="-1" aria-disabled="true">Installation</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./metodologia.html" tabindex="-1" aria-disabled="true">Metodologia</a>
+            <a class="nav-link" href="./metodologia.html" tabindex="-1" aria-disabled="true">Methodology</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./tutoriais.html" tabindex="-1" aria-disabled="true">Tutoriais relacionados</a>
+            <a class="nav-link" href="./tutoriais.html" tabindex="-1" aria-disabled="true">Related tutorials</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../dashboard.html" tabindex="-1" aria-disabled="true">Portuguese version</a>
@@ -220,18 +222,28 @@
                 aplicação. assim crie o arquivo server.js e importe as devidas
                 bibliotecas e frameworks anteriormente instaladas na pasta do NodeJS
               </p>
-              <figure>
-                <img src="../../img/code/requires.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+const express = require('express'); // importando o Express 
+const app = express(); 
+const http = require('http').createServer(app); // criando servidor Expres com o http
+const io = require('socket.io')(http); // importando o Socket.io
+const five = require('johnny-five'); // importando o Johny-five 
+                </code>
+              </pre>
               <p class="text-justify">
                 Logo após isso definimos uma constante referente a porta que o servidor será
                 vinculado e definimos a pasta que será enviada nas requisições para o cliente
                 neste caso criaremos uma pasta denominada client, onde estará
                 JavaScript client-side, o CSS e o HTML
               </p>
-              <figure class="">
-                <img src="../../img/code/appuse.PNG" class="code img-responsive">
-              </figure>
+              <!--?prettify lang=javascript-->
+              <pre class="prettyprint">
+                <code>
+const port = 8000;
+app.use(express.static(__dirname + '/client'));
+                </code>
+              </pre>             
             </section>
             <section id="Interface">
               <h4 class="font-weight-bold">Criando a interface da aplicação</h4>
@@ -239,11 +251,47 @@
               <h4 class="">Criando HTML</h4>
               <p class="text-justify">
                 Após a criação da pasta client, precisamos criar um arquivo html, assim
-                crie um arquivo chamado index.html
+                crie um arquivo chamado index.html e insira:
               </p>
-              <figure class="">
-                <img src="../../img/code/html.PNG" class="code img-responsive">
-              </figure>
+              <xmp class="prettyprint">
+<div class="container big centralize-content" id="container1">
+  <h1>Monitor de voltagem</h1>
+  <div id="chart"></div>
+  <div class="centralize-content bottom-container">
+      <div class="form-setPoint">
+          <label for="setPoint">Set point: </label>
+          <input type="number" name="setPoint" id="setPoint" min="0" max="5">
+          <button onclick="changeSetPoint()">OK</button>
+      </div>
+      <div id="volts1" class="value">carregando...</div>
+      <div id="volts2" class="value"></div>
+  </div>
+</div>
+<div class="centralize-content" id="center-div">
+  <div>
+      <label for="controlBit">Exibir bit de controle: </label>
+      <input type="checkbox" id="controlBit" onclick="switchControlBitGraph()">
+  </div>
+  <button id="pause-resume" onclick="pauseResume()">Pausar</button>
+  <button onclick="changePins()">Mudar canais</button>
+</div>
+<div class="container big centralize-content" id="container2">
+  <h1 id="label-control-bit">
+      Bit de controle
+  </h1>
+  <div id="chart2"></div>
+  <div class="bottom-container"></div>
+</div>
+<!-- biblioteca para construção de gráficos-->
+<script src="libs/plotly.min.js"></script>               
+<!-- socket.io no lado cliente -->
+<script src="/socket.io/socket.io.js"></script>     
+<!-- CDN do jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<!-- script do projeto -->
+<script src="script.js"></script>
+              </xmp>             
               <p class="">
                 <a href="https://github.com/Yurematias/SmartSilo/blob/master/client/style.css">Obter CSS da
                   aplicação</a>
@@ -252,8 +300,12 @@
                   completo</a>
               </p>
               <div class="text-justify">
+                Pra estilizar baixe o arquivo CSS da aplicação no link acima e faça a link no seu arquivo index.html
+              </div>
+              <br />
+              <div class="text-justify">
                 Repare que foi usado bibliotecas externas, a PlotlyJS para construir os gráficos
-                e a jQuery que será usada no script customizado e na PlotlyJS
+                e a jQuery que será usada no script customizado e na PlotlyJS. <br />
                 Você pode baixar ou obter o CDN do jQuery no site oficial:
               </div>
               <a href="https://jquery.com/" class="">https://jquery.com/</a>
@@ -280,52 +332,120 @@
               <p class="">
                 Primeiramente criaremos as variaveis a serem utilizadas
               </p>
-              <figure class="">
-                <img src="../../img/code/variables.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+const socket = io();                         // constante que armazenará o objeto do socket.io
+const startTime = new Date();                // armazenar o tempo inicial ao executar em milisegundos
+let value1, value2, controlBitValue = null;  // valores de y inseridos nos gráficos
+let setPoint = null;           
+let showBitGraph = false;                    // determina se o gráfico do setpoint será mostrado
+let pause = false;                           // determina se o gráfico está pasuado
+let x = 0;                                   // x representa os pontos no eixo x do gráfico 
+let cntSec = 0;                              // conta os segundos passados, a cada minuto ele ganha 60
+let minutes = 0;                             // minutes representa os minutos passados
+let secP;                                    // armazenar o tempo passado (secP = seconds passed)
+let scaleMin = 0, scaleMax = 5;              // escalas do primeiro gráfico
+let option = 'voltagem'                      // gráfico a ser exibido         
+                </code>
+              </pre>   
               <p class="text-justify">
                 Antes de plotar os gráficos com a PlotlyJS é preciso definir suas configurações
                 assim é preciso criar um objeto para o layout do gráfico e arrays com as linhas de cada
                 gráfico
               </p>
-              <figure class="">
-                <img src="../../img/code/layout.PNG" class="code img-responsive">
-              </figure class="text-justify">
+              <pre class="prettyprint">
+                <code>
+let layout = {
+  height: 250,
+  autosize: true,
+  margin: { b: 50, t: 30}
+};
+                </code>
+              </pre>   
               <p class="text-justify">
                 Cada linha de um gráfico na PlotlyJS é um objeto, como varias linhas serão
                 criadas
-                é mais adequado criar uma função construtora para instanciar objetos do tipo Trace (linha),
+                é mais adequado criar uma função para instanciar objetos do tipo Trace (linha),
                 sendo assim escreva a seguinte função:
               </p>
-              <figure class="">
-                <img src="../../img/code/TraceConstructor.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// função construtora para gerar objetos do tipo linha 
+function Trace(name = 'unnamed trace', valueTrace, color = '#000') {
+  this.name = name;
+  this.y = [valueTrace];
+  this.type = 'line';
+  this.mode = 'lines',
+  this.line = { color };
+}
+                </code>
+              </pre> 
               <p class="text-justify">
                 Depois de criada a função construtora que servirá como um molde para a instanciação dos
                 objetos,
                 podemos de instanciar as linhas, colocando-as dentro de arrays
               </p>
-              <figure class="">
-                <img src="../../img/code/tracesArray.PNG" class="img-responsive code">
-              </figure>
-              <figure class="">
-                <img src="../../img/code/TraceCB.PNG" class="img-responsive code">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+let traces = [new Trace('potenciômetro 1', value1, '#D00'),
+  new Trace('potenciômetro 2', value1, 'orange'),
+  new Trace('set point', setPoint, '#00A')
+];
+
+let traceCB = [new Trace('bit de controle', controlBitValue)];
+                </code>
+              </pre> 
               <p class="text-justify">
                 Definiremos uma função que retornará o tempo passado em segundos, este valor será utilizado
                 para
                 saber o tempo passado desde o início da execução de um gráfico
               </p>
-              <figure class="">
-                <img src="../../img/code/secondsPassed.PNG" class="img-responsive code">
-              </figure>
+              <pre class="prettyprint">
+                <p class="text-justify">
+// retorna o tempo passado em segundos 
+function secondsPassed() {
+  let endTime = new Date();
+  let timeDiff = endTime - startTime; // retorno em milisegundos
+  timeDiff /= 1000; // convertendo para segundos 
+  return Math.round(timeDiff);
+}
+                </p>
+              </pre>
               <p class="text-justify">
                 Agora criaremos uma função para atualizar o primeiro gráfico que será o de voltagem
                 Mais a frente passareos essa função como callback para um setInterval
               </p>
-              <figure class="">
-                <img src="../../img/code/updateGraph.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <p class="text-justify">
+// update do primeiro gráfico
+function updateGraph() {
+  Plotly.extendTraces('chart', { y: [[value1], [value2], [setPoint]] }, [0, 1, 2]);
+  secP = secondsPassed();
+  x++;
+  if (secP - cntSec > 59) {
+    cntSec += 60;
+    minutes++;
+  }
+  Plotly.relayout('chart', {
+    xaxix: {
+      showticklabels: false,
+      title: `tempo decorrido: ${minutes}:${secP < 60 ? secP : secP - cntSec}`,
+      range: [x - 50, x]
+    },
+    yaxis: {
+      title: 'voltagem',
+      range: [scaleMin, scaleMax]
+    }
+  });
+  if (value) {
+    document.getElementById('volts1').innerHTML = `1° potenciômetro: ${value.toFixed(2)} volts`
+  }
+  if (value2) {
+    document.getElementById('volts2').innerHTML = `2° potenciômetro: ${value.toFixed(2)} volts`
+  }
+}
+                </p>
+              </pre>
               <p class="text-justify">
                 Faremos outra função para atualizar o gráfico do bit de controle, com a ressalva de que
                 não será preciso definir algumas variáveis, uma vez que podemos usar as variáveis
@@ -333,40 +453,93 @@
                 função
                 setInterval
               </p>
-              <figure class="">
-                <img src="../../img/code/updateGraphCB.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// update do gráfico de bit de controle
+function updateGraphCB() {
+  Plotly.extendTraces('chart2', { y: [[controlBitValue]] }, [0]);
+  Plotly.relayout('chart2', {
+    xaxis: {
+      showticklabels: false,
+      title: `tempo percorrido: ${minutes}:${secP < 60 ? secP : secP - cntSec}`,
+      range: [x - 50, x],
+    },
+    yaxis: {
+      title: 'bit de controle',
+      range: [-0.5, 1.5]
+    }
+  });
+}
+                </code>
+              </pre>   
               <p class="text-justify">
                 Agora definiremos alguns comandos a serem executados assim que a página for carregada.
                 Primeiramente plotamos os 2 gráficos, alteramos algumas configurações da DOM e
                 colocamos as chamadas para a função socket.on que atribuirá eventos a serem chamados
                 se determinadas mensagens do servidor forem recebidas.
               </p>
-              <figure class="">
-                <img src="../../img/code/onload.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+window.onload = function() {
+  PLotly.plot('chart', traces, layout, { responsive: true });     // plotar primeiro gráfico
+  Plotly.plot('chart2',traceCB, layout, { responsive: true });    // plotar gráfico do bit de controle
+  $('#' + option).addClass('marked');                             // marcar a opção atual do gráfico     
+  $('#controlBut').prop('checked', false);                        // deixar o checkbox desmarcado por padrão 
+  socket.on('connect', () => {
+    socket.emit('connected', `${socket.id} diz "Estou conectado"`);
+  });
+  socket.on('value1', receivedFromServer => value1 = receivedFromServer); // listener para receber o valor do primeiro potenciômetro
+  socket.on('value2', receivedFromServer => value2 = receivedFromServer); // listener para receber o valor do segundo potenciômetro
+  socket.on('controlBit', receivedFromServer => controlBitValue = receivedFromServer); // listener para receber valor do bit de controle
+}
+                </code>
+              </pre>   
               <p class="text-justify">
                 Depois de plotados os gráficos, podemos passar as funções de atualizar
                 como callbacks para a função setInterval e assim fazer os gráficos
                 atualizarem em tempo real
               </p>
-              <figure class="">
-                <img src="../../img/code/setinterval.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+let executingGraph = setInterval(updateGraph, 100);
+let executingGraphCB = setInterval(updateGraphCB, 100);
+                </code>
+              </pre>  
               <p class="text-justify">
                 Definiremos uma função para pausar ou retomar os gráficos, funcionalidade importante par
                 caso o usuário deseje visualizar os valores ou mesmo fazer uma captura de tela
               </p>
-              <figure class="">
-                <img src="../../img/code/pauseResume.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// função para pausar ou retomar o gráfico
+function pauseResume() {
+  pause = !pause;
+  if (pause) {
+    document.getElementById('pause-resume').innerText = 'RETOMAR';
+    clearInterval(executingGraph);    // pausa o primeiro gráfico
+    clearInterval(executingGraphCB);  // pausa o segundo gŕafico
+  } else {
+    document.getElementById('pause-resume').innerText = 'PAUSAR';
+    executingGraph = setInterval(updateGraph, 100);  // retoma o primeiro gráfico
+    executingGraphCB = setInterval(updateGraphCB, 100); // retorma o segundo gráfico 
+  }
+}
+                </code>
+              </pre> 
               <p class="text-justify">
                 Definimos também uma função para alterar o Set Point, onde o usuário digitará um novo
                 Set Point e esse valor passará a ser exibido no gráfico de voltagem, além de ir pro servidor
               </p>
-              <figure class="">
-                <img src="../../img/code/changeSetPoint.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// função para mudar o setPoint
+function changeSetPoint() {
+  document.getElementById('label-control-bit').innerHTML = 'Bit de controle';
+  setPoint = document.getElementById('setPoint').value;
+  socket.emit('setPoint', setPoint);  // mandar o set point para o servidor 
+}
+                </code>
+              </pre>  
             </section>
             <section id="Finalizando">
               <h2 class="">Finalizando o servidor</h2>
@@ -379,16 +552,31 @@
                 Point
                 desta forma escreva o seguinte código:
               </p>
-              <figure class="">
-                <img src="../../img/code/variablesServer.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// declarando Arduino na porta ao qual está conectado
+const arduino = new five.Board({ port: 'COM6' });
+let setPoint; // valor do setpoint passado pelo usuário
+let v1, v2;       // valores dos potenciômetros
+                </code>
+              </pre>  
               <p class="text-justify">
                 Após isso vamos definir o que será feito quando o Arduino estiver no estado de pronto.
                 Primeiramente instanciamos os objetos dos potenciômetros
               </p>
-              <figure class="">
-                <img src="../../img/code/declaringPots.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// quando o arduino estiver pronto executar
+arduino.on('ready', () => {
+  console.log('Placa pronta');
+  pot1 = new five.Sensor({ pin: 'A0', freq: 250 }); // primeiro potenciômetro
+  pot2 = new five.Sensor({ pin: 'A1', freq: 250 }); // primeiro potenciômetro
+
+  arduino.repl.inject({ pot: pot1 });
+  arduino.repl.inject({ pot: pot2 });
+});
+                </code>
+              </pre>  
               <p class="text-justify">
                 Depois de instanciar os potenciômetros, vamos criar toda a base do back-end da aplicação.
                 Definimos o que será feito quand o usuário conectar na aplicação. definimos que
@@ -409,31 +597,84 @@
                 1023,
                 desta forma é preciso realizar a conversão para tensão, multiplicando por 5/1024.
               </p>
-              <figure class="">
-                <img src="../../img/code/pot-emit.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// quando o cliente conectar
+io.on('connection', socket => {
+  // executar quando receber a mensagem de retorno do cliente 
+  socket.on('conneted', msg => {
+    console.log('\nMandando dados para: ' + msg);
+    // se potenciômetros estiverem ok, executar...
+    setInterval(() => {
+      v1 = pot.value * 5 / 1024; // conversão de 1024 bits para tensão
+      v2 = pot.value * 5 / 1024; // conversão de 1024 bits para tensão
+      controlBit = (v1 > setPoint && v2 > setPoint) ? 1 : 0;
+      socket.emit('values', {v1, v2, controlBit});
+    }, 400);
+  })
+});
+                </code>
+              </pre>
               <p class="text-justify">
                 Abaixo escrevemos um trecho de código para alterar o Set Point quando o usuário o tiver
                 alterado
                 no cliente.
                 Para isso escreva:
               </p>
-              <figure class="">
-                <img src="../../img/code/changeSetPServer.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// quando receber um novo setPoint 
+socket.on('changeSetPoint', msg => {
+  setPoint = msg;
+  console.log('Set point alterado para: ${setPoint} volts');
+});
+                </code>
+              </pre>
               <p class="text-justify">
                 Desta forma temos a função completa que será executada quando o Arduino estiver pronto
               </p>
-              <figure class="text-justify">
-                <img src="../../img/code/arduino-on.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+arduino.on('ready', () => {
+  console.log('Placa pronta');
+  pot1 = new five.Sensor({ pin: 'A0', freq: 250 }); // primeiro potenciômetro
+  pot2 = new five.Sensor({ pin: 'A1', freq: 250 }); // primeiro potenciômetro
+
+  arduino.repl.inject({ pot: pot1 });
+  arduino.repl.inject({ pot: pot2 });
+
+  // quando o cliente conectar
+  io.on('connection', socket => {
+    // executar quando receber a mensagem de retorno do cliente 
+    socket.on('conneted', msg => {
+      console.log('\nMandando dados para: ' + msg);
+      // se potenciômetros estiverem ok, executar...
+      setInterval(() => {
+        v1 = pot.value * 5 / 1024; // conversão de 1024 bits para tensão
+        v2 = pot.value * 5 / 1024; // conversão de 1024 bits para tensão
+        controlBit = (v1 > setPoint && v2 > setPoint) ? 1 : 0;
+        socket.emit('values', {v1, v2, controlBit});
+      }, 400);
+    });
+    // quando receber um novo setPoint
+    socket.on('changeSetPoint', msg => {
+      setPoint = msg;
+      console.log('Set point alterado para: ${setPoint} volts');
+    });
+  });
+});
+                </code>
+              </pre>
               <p class="text-justify">
                 Finalizando o back-end, só é preciso fazer o http ouvir na porta anteriormente declarada,
                 para assim podermos acessar a aplicação de maneira local no endereço: http://localhost:8000
               </p>
-              <figure class="">
-                <img src="../../img/code/http-listen.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// ouvir na porta declarada
+http.listen(port, () => console.log('Abrir em : http://localhost:' + port));
+                </code>
+              </pre>
             </section>
             <section class="Resultado">
               <h2 class="">Resultado: </h2>
@@ -466,7 +707,7 @@
             <li><a href="#Servidor">Criando servidor NodeJS</a></li>
             <li><a href="#Interface">Criando interface</a></li>
             <li><a href="#Resultado">Resultado</a></li>
-            <li><a href="#Referencias">REferências</a></li>
+            <li><a href="#Referencias">Referências</a></li>
           </ul>
         </div>
       </div>
