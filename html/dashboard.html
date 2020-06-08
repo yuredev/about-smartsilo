@@ -478,31 +478,68 @@ function updateGraphCB() {
                 colocamos as chamadas para a função socket.on que atribuirá eventos a serem chamados
                 se determinadas mensagens do servidor forem recebidas.
               </p>
-              <figure class="">
-                <img src="../img/code/onload.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+window.onload = function() {
+  PLotly.plot('chart', traces, layout, { responsive: true });     // plotar primeiro gráfico
+  Plotly.plot('chart2',traceCB, layout, { responsive: true });    // plotar gráfico do bit de controle
+  $('#' + option).addClass('marked');                             // marcar a opção atual do gráfico     
+  $('#controlBut').prop('checked', false);                        // deixar o checkbox desmarcado por padrão 
+  socket.on('connect', () => {
+    socket.emit('connected', `${socket.id} diz "Estou conectado"`);
+  });
+  socket.on('value1', receivedFromServer => value1 = receivedFromServer); // listener para receber o valor do primeiro potenciômetro
+  socket.on('value2', receivedFromServer => value2 = receivedFromServer); // listener para receber o valor do segundo potenciômetro
+  socket.on('controlBit', receivedFromServer => controlBitValue = receivedFromServer); // listener para receber valor do bit de controle
+}
+                </code>
+              </pre>   
               <p class="text-justify">
                 Depois de plotados os gráficos, podemos passar as funções de atualizar
                 como callbacks para a função setInterval e assim fazer os gráficos
                 atualizarem em tempo real
               </p>
-              <figure class="">
-                <img src="../img/code/setinterval.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+let executingGraph = setInterval(updateGraph, 100);
+let executingGraphCB = setInterval(updateGraphCB, 100);
+                </code>
+              </pre>  
               <p class="text-justify">
                 Definiremos uma função para pausar ou retomar os gráficos, funcionalidade importante par
                 caso o usuário deseje visualizar os valores ou mesmo fazer uma captura de tela
               </p>
-              <figure class="">
-                <img src="../img/code/pauseResume.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// função para pausar ou retomar o gráfico
+function pauseResume() {
+  pause = !pause;
+  if (pause) {
+    document.getElementById('pause-resume').innerText = 'RETOMAR';
+    clearInterval(executingGraph);    // pausa o primeiro gráfico
+    clearInterval(executingGraphCB);  // pausa o segundo gŕafico
+  } else {
+    document.getElementById('pause-resume').innerText = 'PAUSAR';
+    executingGraph = setInterval(updateGraph, 100);  // retoma o primeiro gráfico
+    executingGraphCB = setInterval(updateGraphCB, 100); // retorma o segundo gráfico 
+  }
+}
+                </code>
+              </pre> 
               <p class="text-justify">
                 Definimos também uma função para alterar o Set Point, onde o usuário digitará um novo
                 Set Point e esse valor passará a ser exibido no gráfico de voltagem, além de ir pro servidor
               </p>
-              <figure class="">
-                <img src="../img/code/changeSetPoint.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// função para mudar o setPoint
+function changeSetPoint() {
+  document.getElementById('label-control-bit').innerHTML = 'Bit de controle';
+  setPoint = document.getElementById('setPoint').value;
+  socket.emit('setPoint', setPoint);  // mandar o set point para o servidor 
+}
+                </code>
+              </pre>  
             </section>
             <section id="Finalizando">
               <h2 class="">Finalizando o servidor</h2>
@@ -515,16 +552,31 @@ function updateGraphCB() {
                 Point
                 desta forma escreva o seguinte código:
               </p>
-              <figure class="">
-                <img src="../img/code/variablesServer.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// declarando Arduino na porta ao qual está conectado
+const arduino = new five.Board({ port: 'COM6' });
+let setPoint; // valor do setpoint passado pelo usuário
+let v1, v2;       // valores dos potenciômetros
+                </code>
+              </pre>  
               <p class="text-justify">
                 Após isso vamos definir o que será feito quando o Arduino estiver no estado de pronto.
                 Primeiramente instanciamos os objetos dos potenciômetros
               </p>
-              <figure class="">
-                <img src="../img/code/declaringPots.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// quando o arduino estiver pronto executar
+arduino.on('ready', () => {
+  console.log('Placa pronta');
+  pot1 = new five.Sensor({ pin: 'A0', freq: 250 }); // primeiro potenciômetro
+  pot2 = new five.Sensor({ pin: 'A1', freq: 250 }); // primeiro potenciômetro
+
+  arduino.repl.inject({ pot: pot1 });
+  arduino.repl.inject({ pot: pot2 });
+});
+                </code>
+              </pre>  
               <p class="text-justify">
                 Depois de instanciar os potenciômetros, vamos criar toda a base do back-end da aplicação.
                 Definimos o que será feito quand o usuário conectar na aplicação. definimos que
@@ -545,31 +597,84 @@ function updateGraphCB() {
                 1023,
                 desta forma é preciso realizar a conversão para tensão, multiplicando por 5/1024.
               </p>
-              <figure class="">
-                <img src="../img/code/pot-emit.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// quando o cliente conectar
+io.on('connection', socket => {
+  // executar quando receber a mensagem de retorno do cliente 
+  socket.on('conneted', msg => {
+    console.log('\nMandando dados para: ' + msg);
+    // se potenciômetros estiverem ok, executar...
+    setInterval(() => {
+      v1 = pot.value * 5 / 1024; // conversão de 1024 bits para tensão
+      v2 = pot.value * 5 / 1024; // conversão de 1024 bits para tensão
+      controlBit = (v1 > setPoint && v2 > setPoint) ? 1 : 0;
+      socket.emit('values', {v1, v2, controlBit});
+    }, 400);
+  })
+});
+                </code>
+              </pre>
               <p class="text-justify">
                 Abaixo escrevemos um trecho de código para alterar o Set Point quando o usuário o tiver
                 alterado
                 no cliente.
                 Para isso escreva:
               </p>
-              <figure class="">
-                <img src="../img/code/changeSetPServer.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// quando receber um novo setPoint 
+socket.on('changeSetPoint', msg => {
+  setPoint = msg;
+  console.log('Set point alterado para: ${setPoint} volts');
+});
+                </code>
+              </pre>
               <p class="text-justify">
                 Desta forma temos a função completa que será executada quando o Arduino estiver pronto
               </p>
-              <figure class="text-justify">
-                <img src="../img/code/arduino-on.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+arduino.on('ready', () => {
+  console.log('Placa pronta');
+  pot1 = new five.Sensor({ pin: 'A0', freq: 250 }); // primeiro potenciômetro
+  pot2 = new five.Sensor({ pin: 'A1', freq: 250 }); // primeiro potenciômetro
+
+  arduino.repl.inject({ pot: pot1 });
+  arduino.repl.inject({ pot: pot2 });
+
+  // quando o cliente conectar
+  io.on('connection', socket => {
+    // executar quando receber a mensagem de retorno do cliente 
+    socket.on('conneted', msg => {
+      console.log('\nMandando dados para: ' + msg);
+      // se potenciômetros estiverem ok, executar...
+      setInterval(() => {
+        v1 = pot.value * 5 / 1024; // conversão de 1024 bits para tensão
+        v2 = pot.value * 5 / 1024; // conversão de 1024 bits para tensão
+        controlBit = (v1 > setPoint && v2 > setPoint) ? 1 : 0;
+        socket.emit('values', {v1, v2, controlBit});
+      }, 400);
+    });
+    // quando receber um novo setPoint
+    socket.on('changeSetPoint', msg => {
+      setPoint = msg;
+      console.log('Set point alterado para: ${setPoint} volts');
+    });
+  });
+});
+                </code>
+              </pre>
               <p class="text-justify">
                 Finalizando o back-end, só é preciso fazer o http ouvir na porta anteriormente declarada,
                 para assim podermos acessar a aplicação de maneira local no endereço: http://localhost:8000
               </p>
-              <figure class="">
-                <img src="../img/code/http-listen.PNG" class="code img-responsive">
-              </figure>
+              <pre class="prettyprint">
+                <code>
+// ouvir na porta declarada
+http.listen(port, () => console.log('Abrir em : http://localhost:' + port));
+                </code>
+              </pre>
             </section>
             <section class="Resultado">
               <h2 class="">Resultado: </h2>
