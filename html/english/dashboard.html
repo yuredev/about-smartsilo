@@ -197,26 +197,26 @@
             <section class="text-justify" id="Servidor">
               <h4 class="font-weight-bold">Creating the server</h4>
               <hr>
-              <h4>Creating back-end JavaScript</h4>
-              <p class="text-justify">Após toda essa configuração, finalmente
-                podemos criar o primeiro arquivo, que será o back-end da
-                aplicação. assim crie o arquivo server.js e importe as devidas
-                bibliotecas e frameworks anteriormente instaladas na pasta do NodeJS
+              <h4>Creating the back-end JavaScript</h4>
+              <p class="text-justify">
+                After all the configuration, finally we can create the first file 
+                that will be the server of our application. So create the server.js file 
+                and import the libraries and frameworks that we installed previously
               </p>
-              <pre class="prettyprint">
+                <pre class="prettyprint">
                 <code>
-const express = require('express'); // importando o Express 
-const app = express(); 
-const http = require('http').createServer(app); // criando servidor Expres com o http
-const io = require('socket.io')(http); // importando o Socket.io
-const five = require('johnny-five'); // importando o Johny-five 
+const express = require('express'); // importing Express 
+const app = express(); // creating the server app instance
+const http = require('http').createServer(app); // creating the express server with the http
+const io = require('socket.io')(http); // importing Socket.io
+const five = require('johnny-five'); // importing Johnny-five  
                 </code>
               </pre>
               <p class="text-justify">
-                Logo após isso definimos uma constante referente a porta que o servidor será
-                vinculado e definimos a pasta que será enviada nas requisições para o cliente
-                neste caso criaremos uma pasta denominada client, onde estará
-                JavaScript client-side, o CSS e o HTML
+
+                After we will define a constant that will be refered to the port that the server will work.
+                In this case we will create a folder named client that will contain our 
+                client-side files like the CSS, HTML, JavaScript and image files.
               </p>
               <!--?prettify lang=javascript-->
               <pre class="prettyprint">
@@ -227,16 +227,16 @@ app.use(express.static(__dirname + '/client'));
               </pre>             
             </section>
             <section id="Interface">
-              <h4 class="font-weight-bold">Criando a interface da aplicação</h4>
+              <h4 class="font-weight-bold">Creating the user interface</h4>
               <hr>
-              <h4 class="">Criando HTML</h4>
+              <h4 class="">Coding the HTML</h4>
               <p class="text-justify">
-                Após a criação da pasta client, precisamos criar um arquivo html, assim
-                crie um arquivo chamado index.html e insira:
+                So we need to create a HTML file, then 
+                create a file named index.html and paste the following code:
               </p>
               <xmp class="prettyprint">
 <div class="container big centralize-content" id="container1">
-  <h1>Monitor de voltagem</h1>
+  <h1>Voltage monitor</h1>
   <div id="chart"></div>
   <div class="centralize-content bottom-container">
       <div class="form-setPoint">
@@ -244,21 +244,21 @@ app.use(express.static(__dirname + '/client'));
           <input type="number" name="setPoint" id="setPoint" min="0" max="5">
           <button onclick="changeSetPoint()">OK</button>
       </div>
-      <div id="volts1" class="value">carregando...</div>
+      <div id="volts1" class="value">loading...</div>
       <div id="volts2" class="value"></div>
   </div>
 </div>
 <div class="centralize-content" id="center-div">
   <div>
-      <label for="controlBit">Exibir bit de controle: </label>
+      <label for="controlBit">Show the control bit: </label>
       <input type="checkbox" id="controlBit" onclick="switchControlBitGraph()">
   </div>
-  <button id="pause-resume" onclick="pauseResume()">Pausar</button>
-  <button onclick="changePins()">Mudar canais</button>
+  <button id="pause-resume" onclick="pauseResume()">Pause</button>
+  <button onclick="changePins()">Set pins</button>
 </div>
 <div class="container big centralize-content" id="container2">
   <h1 id="label-control-bit">
-      Bit de controle
+    Control bit
   </h1>
   <div id="chart2"></div>
   <div class="bottom-container"></div>
@@ -274,37 +274,38 @@ app.use(express.static(__dirname + '/client'));
 <script src="script.js"></script>
               </xmp>             
               <p class="">
-                <a href="https://github.com/Yurematias/SmartSilo/blob/master/client/style.css">Obter CSS da
-                  aplicação</a>
+                <a href="https://github.com/Yurematias/SmartSilo/blob/master/client/style.css">
+                  Get all the application CSS
+                </a>
                 &nbsp;-&nbsp;
-                <a href="https://github.com/Yurematias/SmartSilo/blob/master/client/index.html">Obter HTML
-                  completo</a>
+                <a href="https://github.com/Yurematias/SmartSilo/blob/master/client/index.html">
+                  Get all the application HTML
+                </a>
               </p>
               <div class="text-justify">
-                Pra estilizar baixe o arquivo CSS da aplicação no link acima e faça a link no seu arquivo index.html
+                To style correctly the app. Download the CSS file in the link above and link with the HTML.
               </div>
               <br />
               <div class="text-justify">
-                Repare que foi usado bibliotecas externas, a PlotlyJS para construir os gráficos
-                e a jQuery que será usada no script customizado e na PlotlyJS. <br />
-                Você pode baixar ou obter o CDN do jQuery no site oficial:
+                Note that was used external libraries. The PlotlyJS to build the charts 
+                and the JQuery that will be used by the Plotly <br />
+                You can get the CDN or download the librarie in the JQuery official site:
               </div>
               <a href="https://jquery.com/" class="">https://jquery.com/</a>
               <br>
               <div class="">
-                A PlotlyJS podemos baixá-la ou obter o CDN em:
+                The PlotlyJS we can get in:
               </div>
               <a href="https://plot.ly/javascript/" class="">https://plot.ly/javascript/</a>
               <br>
               <p class="text-justify">
-                Para referenciar o Socket.io basta adcionar um script com o endereço:
+                To use the Socket.io we have to insert the script reference:
                 "socket.io/socket.io.js"
-                Isso já faz com que o Socket.io funcione, uma vez que ele já está
-                instalado no módulo da pasta do projeto no NodeJS
+                This already makes the Socket.io works correctly.
               </p>
-              <h4 class="">Criando JavaScript do front-end</h4>
-              <a class="" href="https://github.com/Yurematias/SmartSilo/blob/master/client/script.js">Obter
-                front-end JavaScript completo</a>
+              <h4 class="">Creating the front-end JavaScript</h4>
+              <a class="" href="https://github.com/Yurematias/SmartSilo/blob/master/client/script.js">
+                Get the entire JavaScript front-end code</a>
               <p class="text-justify">
                 Uma vez criado o HTML, podemos criar o script que será vinculado a essa página, onde terá
                 toda a
