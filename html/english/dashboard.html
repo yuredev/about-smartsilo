@@ -307,33 +307,33 @@ app.use(express.static(__dirname + '/client'));
               <a class="" href="https://github.com/Yurematias/SmartSilo/blob/master/client/script.js">
                 Get the entire JavaScript front-end code</a>
               <p class="text-justify">
-                Uma vez criado o HTML, podemos criar o script que será vinculado a essa página, onde terá
-                toda a
-                configuração referente aos gráficos, além da manipulação da DOM
+                Once the HTML is created, we can create the 
+                script that will be linked to that page, 
+                where it will have all the configuration 
+                related to the graphics, in addition to the DOM 
+                manipulation
               </p>
               <p class="">
-                Primeiramente criaremos as variaveis a serem utilizadas
+                First we will create the variables to be used
               </p>
               <pre class="prettyprint">
                 <code>
-const socket = io();                         // constante que armazenará o objeto do socket.io
-const startTime = new Date();                // armazenar o tempo inicial ao executar em milisegundos
-let value1, value2, controlBitValue = null;  // valores de y inseridos nos gráficos
+const socket = io();                         // socket.io object constant 
+const startTime = new Date();                // store the initial in miliseconds
+let value1, value2, controlBitValue = null;  // chart x and y values 
 let setPoint = null;           
-let showBitGraph = false;                    // determina se o gráfico do setpoint será mostrado
-let pause = false;                           // determina se o gráfico está pasuado
-let x = 0;                                   // x representa os pontos no eixo x do gráfico 
-let cntSec = 0;                              // conta os segundos passados, a cada minuto ele ganha 60
-let minutes = 0;                             // minutes representa os minutos passados
-let secP;                                    // armazenar o tempo passado (secP = seconds passed)
-let scaleMin = 0, scaleMax = 5;              // escalas do primeiro gráfico
-let option = 'voltagem'                      // gráfico a ser exibido         
+let showBitGraph = false;                    // determines if the chart of control bit is visible
+let pause = false;                           // determines if the chart is paused
+let x = 0;                                   // represents the x axis 
+let cntSec = 0;                              // store the segunds passed
+let minutes = 0;                             // store the minutes passed 
+let secP;                                    // store the time passed (secP = seconds passed)
+let scaleMin = 0, scaleMax = 5;              // scales of the first chart
+let option = 'voltagem'                      // current visible chart          
                 </code>
               </pre>   
               <p class="text-justify">
-                Antes de plotar os gráficos com a PlotlyJS é preciso definir suas configurações
-                assim é preciso criar um objeto para o layout do gráfico e arrays com as linhas de cada
-                gráfico
+                Before plotting the graphs with PlotlyJS you need to define your settings so you need to create an object for the graph layout and arrays with the lines of each graph
               </p>
               <pre class="prettyprint">
                 <code>
@@ -345,14 +345,14 @@ let layout = {
                 </code>
               </pre>   
               <p class="text-justify">
-                Cada linha de um gráfico na PlotlyJS é um objeto, como varias linhas serão
-                criadas
-                é mais adequado criar uma função para instanciar objetos do tipo Trace (linha),
-                sendo assim escreva a seguinte função:
+                Each trace of the PlotlyJS chart is an object 
+                Since several traces will be created 
+                it´s useful to create a constructor function to create objects of the type trace.
+                Then create the following function: 
               </p>
               <pre class="prettyprint">
                 <code>
-// função construtora para gerar objetos do tipo linha 
+// constructor function to create Trace objects 
 function Trace(name = 'unnamed trace', valueTrace, color = '#000') {
   this.name = name;
   this.y = [valueTrace];
@@ -363,18 +363,16 @@ function Trace(name = 'unnamed trace', valueTrace, color = '#000') {
                 </code>
               </pre> 
               <p class="text-justify">
-                Depois de criada a função construtora que servirá como um molde para a instanciação dos
-                objetos,
-                podemos de instanciar as linhas, colocando-as dentro de arrays
+                After creating the constructor function that will serve as a template for object instantiation, we can instantiate the traces, placing them inside arrays
               </p>
               <pre class="prettyprint">
                 <code>
-let traces = [new Trace('potenciômetro 1', value1, '#D00'),
-  new Trace('potenciômetro 2', value1, 'orange'),
+let traces = [new Trace('potentiometer 1', value1, '#D00'),
+  new Trace('potentiometer 2', value1, 'orange'),
   new Trace('set point', setPoint, '#00A')
 ];
 
-let traceCB = [new Trace('bit de controle', controlBitValue)];
+let traceCB = [new Trace('control bit', controlBitValue)];
                 </code>
               </pre> 
               <p class="text-justify">
