@@ -478,39 +478,47 @@ function pauseResume() {
               <hr>
               <p class="text-justify">
                 Depois de criar todo o front-end da aplicação, está na hora de terminarmos
-                o servidor e escrevermos todo o código do Arduino e do Socket.io do lado servidor.
-                O primeiro passo é declararmos um objeto do tipo porta referente ao Arduino
-                além de algumas variáveis importantes como os valores dos potenciômetros e o valor do Set
-                Point
-                desta forma escreva o seguinte código:
+                o servidor e escrevermos todo o código referente ao Arduino e ao Socket.io do lado do servidor.
+                Nesse tutorial é criado uma função IIFE denominada main para ser a porta de entrada do servidor
+                Após isso usaremos a classe Board do Arduino para instanciar um objeto referente à placa do Arduino. 
+                Para o contrutor da classe passamos o caminho da porta USB que o Arduino está conectado
+                Podemos verificar qual porta colocar, abrindo a IDE do Arduino e sequindo as opções 
+                <label class="command" style="display: inline;">
+                  Tools >> Serial Port 
+                </label>  
+                <br/ >
+                No Windows teremos como caminho para porta algo como: COM1, COM2 ou COM3, 
+                para o sistemas baseados em Linux algo como /dev/ttyUSB0. <br />
+                Como esse tutorial foi reproduzido no Linux Ubuntu, foi colocado a /dev/ttyUSB0.
               </p>
               <pre class="prettyprint">
                 <code>
-// declarando Arduino na porta ao qual está conectado
-const arduino = new five.Board({ port: 'COM6' });
-let setPoint; // valor do setpoint passado pelo usuário
-let v1, v2;       // valores dos potenciômetros
+(function main() {
+  const arduino = new jFive.Board({ port: "/dev/ttyUSB0" });
+})();
                 </code>
               </pre>  
               <p class="text-justify">
-                Após isso vamos definir o que será feito quando o Arduino estiver no estado de pronto.
-                Primeiramente instanciamos os objetos dos potenciômetros
+                Não podemos fazer as leituras analógicas do Arduino imediatamente,
+                uma vez que quando o script é executado no NodeJS, é levado um tempo até que a placa seja devidamente reconhecida. 
+                Para isso somente criaremos o objeto referente à leitura analógica somente quando o Arduino estiver pronto.
+                Assim colocamos o código dentro do listener 
+                <div class="command">arduino.on('ready', callback)</div>
+                Usaremos a classe Sensor do johnny-five que pode servir para definir 
+                objetos para leitura analógica do Arduino.
+                Passamos como parametros a porta analógica do Arduino A0 e a frquência de leitura analógica
               </p>
               <pre class="prettyprint">
                 <code>
-// quando o arduino estiver pronto executar
-arduino.on('ready', () => {
-  console.log('Placa pronta');
-  pot1 = new five.Sensor({ pin: 'A0', freq: 250 }); // primeiro potenciômetro
-  pot2 = new five.Sensor({ pin: 'A1', freq: 250 }); // primeiro potenciômetro
-
-  arduino.repl.inject({ pot: pot1 });
-  arduino.repl.inject({ pot: pot2 });
+arduino.on('ready', function() {
+  console.log('Arduino pronto');
+  const analogSensor = new jFive.Sensor('A0', { freq: 250}); 
 });
                 </code>
               </pre>  
+              <!-- PAREI AQUI -->
               <p class="text-justify">
-                Depois de instanciar os potenciômetros, vamos criar toda a base do back-end da aplicação.
+                Depois de instanciar os o objeto referente a, vamos criar toda a base do back-end da aplicação.
                 Definimos o que será feito quand o usuário conectar na aplicação. definimos que
                 quando os potenciômetros estiverem nos estados de prontos, a aplicação precisa enviar esses
                 dados em tempo real,
