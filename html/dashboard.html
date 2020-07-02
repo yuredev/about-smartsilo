@@ -503,10 +503,10 @@ function pauseResume() {
                 uma vez que quando o script é executado no NodeJS, é levado um tempo até que a placa seja devidamente reconhecida. 
                 Para isso somente criaremos o objeto referente à leitura analógica somente quando o Arduino estiver pronto.
                 Assim colocamos o código dentro do listener 
-                <div class="command">arduino.on('ready', callback)</div>
+                <span class="command">arduino.on('ready', callback)</span>
                 Usaremos a classe Sensor do johnny-five que pode servir para definir 
                 objetos para leitura analógica do Arduino.
-                Passamos como parametros a porta analógica do Arduino A0 e a frquência de leitura analógica
+                Passamos como parametros a porta analógica do Arduino A0 e a frequência de leitura analógica
               </p>
               <pre class="prettyprint">
                 <code>
@@ -516,103 +516,84 @@ arduino.on('ready', function() {
 });
                 </code>
               </pre>  
-              <!-- PAREI AQUI -->
               <p class="text-justify">
-                Depois de instanciar os o objeto referente a, vamos criar toda a base do back-end da aplicação.
-                Definimos o que será feito quand o usuário conectar na aplicação. definimos que
-                quando os potenciômetros estiverem nos estados de prontos, a aplicação precisa enviar esses
-                dados em tempo real,
-                utilizaremos um intervalo de tempo de 300 milisegundos, ou seja, a cada 300 milisegundos o
-                servidor mandará os dados
-                do Arduino para o cliente é aí que entra o Socket.io com a função emit na aplicação.
+                Uma vez instanciado o objeto referente ao sensor colocado 
+                no arduino já podemos começar a ler seus valores análgicos e mandar 
+                para a parte frontend da aplicação. 
+                Para troca de mensagens em tempo real entre servidor e cliente,
+                começamos trabalhar com websockets através do Socket.io. 
               </p>
               <p class="text-justify">
-                Desta forma colocamos as funções referentes ao Socket.io para quando os potenciômetros
-                estiverem prontos, os dados serem mandados para o cliente com o socket.emit dentro de um
-                setinterval.
+                a função <span class="command" style="display: inline;">on()</span> do socket.io permite 
+                definirmos um bloco de código a ser executado quando algum evento acontecer 
+                desta forma, quando o evento <span class="command" style="display: inline;">connection</span>
+                acontecer significa que o cliente conectou ao nosso servidor, a partir desse momento 
+                que os dados capturados do sensor do Arduino poderão ser enviados para o cliente.
+                Desta forma edite o server.js.
               </p>
               <p class="text-justify">
-                Note que é preciso realizar uma conversão dos valores dos potenciômetros,
-                uma vez que o UNO possui conversor ADC de 10 bits de resolução, assim lê valores entre 0 e
-                1023,
-                desta forma é preciso realizar a conversão para tensão, multiplicando por 5/1024.
+                Para um envio continuo dos dados para o cliente usaremos a função setInterval do JavaScript
+                que permite que uma função seja executada a cada determinado período de tempo.  
               </p>
               <pre class="prettyprint">
                 <code>
 // quando o cliente conectar
-io.on('connection', socket => {
-  // executar quando receber a mensagem de retorno do cliente 
-  socket.on('conneted', msg => {
-    console.log('\nMandando dados para: ' + msg);
-    // se potenciômetros estiverem ok, executar...
-    setInterval(() => {
-      v1 = pot.value * 5 / 1024; // conversão de 1024 bits para tensão
-      v2 = pot.value * 5 / 1024; // conversão de 1024 bits para tensão
-      controlBit = (v1 > setPoint && v2 > setPoint) ? 1 : 0;
-      socket.emit('values', {v1, v2, controlBit});
-    }, 400);
-  })
+io.on('connection', function(socket) { 
+  console.log('Mandando dados para ' + socket.id);
+  setInterval(function() {
+    socket.emit('value', analogSensor.value)
+  }, 100);
 });
                 </code>
               </pre>
-              <p class="text-justify">
-                Abaixo escrevemos um trecho de código para alterar o Set Point quando o usuário o tiver
-                alterado
-                no cliente.
-                Para isso escreva:
+              <p class="text-jusitfy">
+                Por fim precisamos definir a porta que nossa aplicação será servida 
+                Neste exemplo usaremos a porta 8080 que foi anteriormente definida pela 
+                constante port 
               </p>
               <pre class="prettyprint">
                 <code>
-// quando receber um novo setPoint 
-socket.on('changeSetPoint', msg => {
-  setPoint = msg;
-  console.log('Set point alterado para: ${setPoint} volts');
+// ouvir na porta declarada 
+http.listen(port, function() {
+  console.log('============ SISTEMA PRONTO ============');
+  console.log(`   Abrir em: http://localhost:${port}`);
+  console.log('>> ========================================');
 });
                 </code>
               </pre>
-              <p class="text-justify">
-                Desta forma temos a função completa que será executada quando o Arduino estiver pronto
-              </p>
+              <p>Uma vez terminada, o estado final da nossa aplicação do lado do servidor será da seguinte forma: </p>
+
               <pre class="prettyprint">
                 <code>
-arduino.on('ready', () => {
-  console.log('Placa pronta');
-  pot1 = new five.Sensor({ pin: 'A0', freq: 250 }); // primeiro potenciômetro
-  pot2 = new five.Sensor({ pin: 'A1', freq: 250 }); // primeiro potenciômetro
+const express = require("express"); // importando o Express 
+const app = express();
+const http = require("http").createServer(app);
+const io = require("socket.io")(http); // importando Socket.io
+const jFive = require("johnny-five"); // importando o Johnny-five
+const path = require('path'); // será utilizado para fazer o express reconhecer o caminho 
+const port = 8080;
 
-  arduino.repl.inject({ pot: pot1 });
-  arduino.repl.inject({ pot: pot2 });
+app.use(express.static(path.resolve(__dirname + "/../frontend"))); // atender requisições com pasta a frontend
 
-  // quando o cliente conectar
-  io.on('connection', socket => {
-    // executar quando receber a mensagem de retorno do cliente 
-    socket.on('conneted', msg => {
-      console.log('\nMandando dados para: ' + msg);
-      // se potenciômetros estiverem ok, executar...
-      setInterval(() => {
-        v1 = pot.value * 5 / 1024; // conversão de 1024 bits para tensão
-        v2 = pot.value * 5 / 1024; // conversão de 1024 bits para tensão
-        controlBit = (v1 > setPoint && v2 > setPoint) ? 1 : 0;
-        socket.emit('values', {v1, v2, controlBit});
-      }, 400);
+(function main() {
+  const arduino = new jFive.Board({ port: "/dev/ttyUSB0" });
+  arduino.on('ready', function() {
+    console.log('Arduino pronto');
+    const analogSensor = new jFive.Sensor('A0', { freq: 250}); 
+    io.on('connection', function(socket) { 
+      console.log('Mandando dados para ' + socket.id);
+      setInterval(function() {
+        socket.emit('value', analogSensor.value)
+      }, 100);
     });
-    // quando receber um novo setPoint
-    socket.on('changeSetPoint', msg => {
-      setPoint = msg;
-      console.log('Set point alterado para: ${setPoint} volts');
+    // ouvir na porta declarada 
+    http.listen(port, function() {
+      console.log('============ SISTEMA PRONTO ============');
+      console.log(`   Abrir em: http://localhost:${port}`);
+      console.log('>> ========================================');
     });
   });
-});
-                </code>
-              </pre>
-              <p class="text-justify">
-                Finalizando o back-end, só é preciso fazer o http ouvir na porta anteriormente declarada,
-                para assim podermos acessar a aplicação de maneira local no endereço: http://localhost:8000
-              </p>
-              <pre class="prettyprint">
-                <code>
-// ouvir na porta declarada
-http.listen(port, () => console.log('Abrir em : http://localhost:' + port));
+})();
                 </code>
               </pre>
             </section>
@@ -621,7 +602,7 @@ http.listen(port, () => console.log('Abrir em : http://localhost:' + port));
               <hr>
               <p class="">Acessando o endereço citado podermos finalmente ver a aplicação pronta: </p>
               <figure class="">
-                <img src="../img/code/SmartSilo.PNG" class="img-responsive">
+                <img src="https://raw.githubusercontent.com/yuredev/arduino-analog-monitor/master/screenshots/screenshot.gif" class="img-responsive">
               </figure>
             </section>
             <section class="text-center" id="Referencias">
